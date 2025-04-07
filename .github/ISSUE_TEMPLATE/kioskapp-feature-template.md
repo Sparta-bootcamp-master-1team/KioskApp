@@ -2,7 +2,7 @@
 name: KioskApp Feature Template
 about: KioskApp 기능 이슈 템플릿
 title: 'feat '
-labels: ''
+labels: "\U0001F41BBugFix"
 assignees: ''
 
 ---
