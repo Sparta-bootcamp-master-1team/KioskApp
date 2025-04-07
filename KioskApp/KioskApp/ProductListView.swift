@@ -13,6 +13,7 @@ class ProductListView: UIView {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
         collectionView.backgroundColor = .black
+        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
         return collectionView
     }()
     
