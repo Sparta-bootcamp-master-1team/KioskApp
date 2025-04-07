@@ -1,7 +1,7 @@
 import Foundation
 
 struct Product: Decodable {
-    let bevarage: [Beverage]
+    let beverage: [Beverage]
 }
 
 struct Beverage: Decodable {
