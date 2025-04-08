@@ -52,3 +52,23 @@ struct Beverage: Decodable {
         return "\(category)" + "\(option == nil ? "-" : "\(option!)-")" + "\(name)" + "-\(brand)"
     }
 }
+
+struct OrderItem {
+    let name: String
+    let price: Int
+    let brand: Brand
+    var count: Int
+    
+    var orderTitle: String {
+        return "(\(brand.rawValue)) \(name)"
+    }
+    
+    mutating func increaseCount() {
+        self.count += 1
+    }
+    
+    mutating func decreaseCount() {
+        self.count -= 1
+    }
+    
+}
