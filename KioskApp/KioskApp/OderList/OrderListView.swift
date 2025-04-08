@@ -25,6 +25,15 @@ class OrderListView: UIView, OrderListTableViewDelegate {
     /// 테이블 뷰의 높이를 동적으로 조정하기 위한 제약 조건입니다.
     private var orderListTableViewHeightConstraint: Constraint?
     
+    /// 주문 취소 버튼입니다.
+    private let cancelButton = UIButton(type: .system)
+    
+    /// 주문하기 버튼입니다.
+    private let orderButton = UIButton(type: .system)
+    
+    /// 버튼들을 수평으로 정렬하는 스택 뷰입니다.
+    private let buttonStackView = UIStackView()
+
     // MARK: - Initializers
     
     /// 코드로 뷰를 초기화할 때 호출됩니다.
@@ -48,6 +57,7 @@ class OrderListView: UIView, OrderListTableViewDelegate {
         addSubview(titleLabel)
         addSubview(orderListTableView)
         addSubview(totalPriceLabel)
+        setupButtons()
     }
 
     /// 컴포넌트들의 오토레이아웃 제약 조건을 설정합니다.
@@ -71,6 +81,13 @@ class OrderListView: UIView, OrderListTableViewDelegate {
             make.leading.trailing.equalToSuperview().inset(16)
         }
 
+        // 버튼 스택
+        buttonStackView.snp.makeConstraints { make in
+            make.top.equalTo(totalPriceLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(48)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(16) // 하단 여백
+        }
     }
 
     /// 각 컴포넌트들의 스타일을 지정합니다. (폰트, 색상 등)
@@ -84,10 +101,48 @@ class OrderListView: UIView, OrderListTableViewDelegate {
         totalPriceLabel.textAlignment = .right
     }
 
+    /// 주문취소 및 주문하기 버튼을 구성하고, 스택 뷰로 묶어 추가합니다.
+    private func setupButtons() {
+        // 주문취소 버튼
+        cancelButton.setTitle("주문취소", for: .normal)
+        cancelButton.setTitleColor(.black, for: .normal)
+        cancelButton.backgroundColor = .white
+        cancelButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        cancelButton.layer.cornerRadius = 24
+        cancelButton.clipsToBounds = true
+
+        // 주문하기 버튼
+        orderButton.setTitle("주문하기", for: .normal)
+        orderButton.setTitleColor(.white, for: .normal)
+        orderButton.backgroundColor = UIColor(red: 62/255, green: 39/255, blue: 35/255, alpha: 1) // 진한 갈색
+        orderButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        orderButton.layer.cornerRadius = 24
+        orderButton.clipsToBounds = true
+
+        // 스택 뷰에 버튼 추가
+        buttonStackView.axis = .horizontal
+        buttonStackView.spacing = 12
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.addArrangedSubview(cancelButton)
+        buttonStackView.addArrangedSubview(orderButton)
+
+        // 버튼 스택을 뷰에 추가
+        addSubview(buttonStackView)
+        
+        // 버튼 액션 설정
+        cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
     }
 
+    
     // MARK: - Action
     
+    /// "주문취소" 버튼을 눌렀을 때 실행됩니다.
+    /// OrderListManager의 리스트를 초기화하고 UI를 갱신합니다.
+    @objc private func didTapCancel() {
+        OrderListManager.shared.reset()   // 모든 항목 제거
+        reloadTable()                     // 테이블 및 총 가격 갱신
+    }
+
     
     // MARK: - Public Methods
 
