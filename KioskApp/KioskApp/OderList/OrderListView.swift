@@ -81,6 +81,9 @@ class OrderListView: UIView, OrderListTableViewDelegate {
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         
         totalPriceLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        totalPriceLabel.textAlignment = .right
+    }
+
     }
 
     // MARK: - Action
