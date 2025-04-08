@@ -91,6 +91,12 @@ class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, Or
 
     // MARK: - Public Methods
     // 외부에서 이 뷰에 접근하는 API 제공 (ex: updateLabel(with:))
+
+    /// 테이블 뷰를 다시 로드합니다.
+    func reloadData() {
+        tableView.reloadData()
+    }
+
     /// 테이블 뷰의 contentSize.height를 반환합니다. 외부에서 높이 계산에 사용됩니다.
     func intrinsicContentHeight() -> CGFloat {
         return tableView.contentSize.height
