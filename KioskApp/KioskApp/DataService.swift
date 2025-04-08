@@ -6,7 +6,6 @@ enum DataError: Error {
 }
 
 class DataService {
-    var items: Product?
     func fetchData(completion: @escaping (Result< Product, Error>) -> Void) {
         guard let path = Bundle.main.path(forResource: "Beverages", ofType: "json") else {
             completion(.failure(DataError.fileNotFound))
