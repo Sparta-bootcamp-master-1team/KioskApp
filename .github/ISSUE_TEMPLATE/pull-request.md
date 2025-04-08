@@ -1,5 +1,5 @@
 ---
-name: PR request
+name: Pull Request
 about: PR 기술명세서
 title: ''
 labels: ''
