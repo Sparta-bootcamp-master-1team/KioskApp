@@ -8,6 +8,13 @@
 import UIKit
 import SnapKit
 
+/// 장바구니 항목 셀에서 발생하는 사용자 액션을 전달하기 위한 델리게이트 프로토콜입니다.
+protocol OrderItemCellDelegate: AnyObject {
+    func orderItemCellDidTapIncrement(_ cell: OrderItemCell)
+    func orderItemCellDidTapDecrement(_ cell: OrderItemCell)
+    func orderItemCellDidTapRemove(_ cell: OrderItemCell)
+}
+
 class OrderItemCell: UITableViewCell {
     // MARK: - UI Components
     // 뷰에 들어갈 컴포넌트들을 정의하는 공간
@@ -34,6 +41,8 @@ class OrderItemCell: UITableViewCell {
     /// 항목 삭제 버튼입니다.
     private let removeButton = UIButton(type: .system)
     
+    /// 셀에서 발생하는 액션을 전달할 델리게이트입니다.
+    weak var delegate: OrderItemCellDelegate?
     
     // MARK: - Initializers
     // init(frame:) 또는 required init?(coder:) 구현

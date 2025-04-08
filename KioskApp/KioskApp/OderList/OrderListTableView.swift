@@ -8,11 +8,18 @@
 import UIKit
 import SnapKit
 
+protocol OrderListTableViewDelegate: AnyObject {
+    func orderListTableViewDidUpdate()
+}
+
 class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, OrderItemCellDelegate {
 
     // MARK: - UI Components
     // 뷰에 들어갈 컴포넌트들을 정의하는 공간
     private let tableView = UITableView()
+
+    weak var delegate: OrderListTableViewDelegate?
+
     // MARK: - Initializers
     // init(frame:) 또는 required init?(coder:) 구현
     /// 코드로 초기화할 때 호출되는 생성자입니다.
@@ -52,7 +59,12 @@ class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, Or
         tableView.clipsToBounds = true
     }
 
+    /// 테이블 뷰의 delegate, dataSource 설정과 셀 등록, 스크롤 여부 등을 설정합니다.
     private func setupTableView() {
+        // 테이블 뷰의 delegate를 현재 클래스(self)로 설정합니다.
+        // 셀 선택 등 사용자 상호작용을 제어할 수 있습니다.
+        tableView.delegate = self
+
         // 테이블 뷰의 데이터 소스를 현재 클래스(self)로 설정합니다.
         // 셀 개수 및 셀 생성 등 데이터를 테이블에 제공하는 역할을 합니다.
         tableView.dataSource = self
@@ -183,8 +195,38 @@ class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, Or
 
         // 셀에 주문 데이터를 설정합니다 (ex: 이름, 수량, 가격 등)
         cell.configure(with: order)
+
+        // 델리게이트 연결
+        cell.delegate = self
+
         // 설정된 셀을 반환하여 테이블 뷰에 표시합니다.
         return cell
+    }
+
+    // MARK: - CartItemCellDelegate
+
+    func orderItemCellDidTapIncrement(_ cell: OrderItemCell) {
+        guard let indexPath = indexPath(for: cell) else { return }
+        let item = OrderListManager.shared.items[indexPath.row].coffee
+        OrderListManager.shared.add(item)
+        reloadData()
+        delegate?.orderListTableViewDidUpdate()
+    }
+
+    func orderItemCellDidTapDecrement(_ cell: OrderItemCell) {
+        guard let indexPath = indexPath(for: cell) else { return }
+        let item = OrderListManager.shared.items[indexPath.row].coffee
+        OrderListManager.shared.decrement(item)
+        reloadData()
+        delegate?.orderListTableViewDidUpdate()
+    }
+
+    func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
+        guard let indexPath = indexPath(for: cell) else { return }
+        let item = OrderListManager.shared.items[indexPath.row].coffee
+        OrderListManager.shared.remove(item)
+        reloadData()
+        delegate?.orderListTableViewDidUpdate()
     }
 
     // MARK: - Private Methods
