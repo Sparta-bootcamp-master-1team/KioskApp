@@ -14,8 +14,8 @@ class DataService {
         
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: path))
-            let bookResponse = try JSONDecoder().decode(Product.self, from: data)
-            completion(.success(bookResponse))
+            let response = try JSONDecoder().decode(Product.self, from: data)
+            completion(.success(response))
         } catch {
             print("JSON 파싱 에러 : \(error)")
             completion(.failure(DataError.parsingFailed))

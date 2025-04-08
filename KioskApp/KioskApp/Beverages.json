@@ -3,63 +3,63 @@
         {
             "name": "사라다빵",
             "price": 3000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "소세지빵",
             "price": 3500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "소프트아이스크림",
             "price": 2000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "쫀득감자빵",
             "price": 2800,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "쫀득고구마빵",
             "price": 2800,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "크리미단팥빵",
             "price": 2000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "크리미슈",
             "price": 2000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "햄치즈샌드위치",
             "price": 3300,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
         {
             "name": "고메버터소금빵",
             "price": 2500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Baik"
         },
@@ -612,140 +612,140 @@
         {
             "name": "플레인크로플",
             "price": 3000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "고메소금빵",
             "price": 3000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "달콤촉촉고구마빵",
             "price": 3500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "마카다미아크루키",
             "price": 4200,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "스윗크룽지",
             "price": 1500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "우유크림카스테라",
             "price": 4300,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "우유크림커피번",
             "price": 4000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "크랜베리초코칩쿠키",
             "price": 3000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "페페로니포카치아",
             "price": 4800,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "포슬쫀득감자빵",
             "price": 3500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "TheVenti"
         },
         {
             "name": "버터버터마늘크로크무슈",
             "price": 3900,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "초코무스케이크",
             "price": 3500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "초코스모어쿠키",
             "price": 2900,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "초콜릿칩쿠키",
             "price": 1800,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "치즈케이크",
             "price": 3500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "치즈품은감자빵",
             "price": 3900,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "티라미수케이크",
             "price": 3500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "핫치킨&딥치즈치아바타",
             "price": 4400,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "햄앤치즈샌드위치",
             "price": 2000,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },
         {
             "name": "허니브레드",
             "price": 4500,
-            "category": "Desert",
+            "category": "Dessert",
             "option": null,
             "brand": "Mega"
         },

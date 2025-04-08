@@ -4,7 +4,7 @@ import Foundation
 enum Category: String, Decodable {
     case coffee = "Coffee"
     case beverage = "Beverage"
-    case desert = "Desert"
+    case dessert = "Dessert"
 }
 
 /// 3사 브랜드 (Baik, TheVenti, Mega)
@@ -70,6 +70,8 @@ struct Beverage: Decodable {
         return "\(category)" + "\(option == nil ? "-" : "\(option!)-")" + "\(name)" + "-\(brand)"
     }
 }
+
+
 
 /// 장바구니 제품 모델
 struct OrderItem {
