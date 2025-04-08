@@ -1,5 +1,5 @@
 //
-//  ProductListView.swift
+//  ProductGridViewg.swift
 //  KioskApp
 //
 //  Created by 박주성 on 4/7/25.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProductListView: UIView {
+class ProductGridView: UIView {
     
     // 상품 목록을 표시할 컬렉션 뷰
     private lazy var collectionView: UICollectionView = {
