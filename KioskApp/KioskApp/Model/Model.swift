@@ -11,7 +11,7 @@ struct Beverage: Decodable {
     let option: String?
     let brand: String
     
-    var imageString: String {
-        return "\(self.category)" + "\(self.option)" + "\(self.name)"
+    var imageName: String {
+        return "\(category)" + "\(option == nil ? "-" : "\(option!)-")" + "\(name)" + "-\(brand)"
     }
 }
