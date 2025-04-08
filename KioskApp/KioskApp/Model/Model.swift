@@ -2,22 +2,22 @@ import Foundation
 
 /// 카테고리 (Coffee, Beverage, Desert)
 enum Category: String, Decodable {
-    case Coffee
-    case Beverage
-    case Desert
+    case coffee = "Coffee"
+    case beverage = "Beverage"
+    case desert = "Desert"
 }
 
 /// 3사 브랜드 (Baik, TheVenti, Mega)
 enum Brand: String, Decodable {
-    case Baik
-    case TheVenti
-    case Mega
+    case baik = "Baik"
+    case theVenti = "TheVenti"
+    case mega = "Mega"
 }
 
 /// 커피와 음료의 옵션, 디저트는 none  (HOT, ICE, none)
 enum Option: String, Decodable{
-    case HOT
-    case ICE
+    case hot = "HOT"
+    case ice = "ICE"
 }
 
 /// 모든 브랜드의 커피 배열을 담은 구조체
@@ -25,21 +25,35 @@ struct Product: Decodable {
     let beverage: [Beverage]
     
     var baiksProduct: [Beverage] {
-        return beverage.filter { $0.brand == .Baik }
+        return beverage.filter {
+            $0.brand == .baik
+        }
     }
     
     var theVentiProduct: [Beverage] {
-        return beverage.filter { $0.brand == .TheVenti }
+        return beverage.filter {
+            $0.brand == .theVenti
+        }
     }
     var megaProduct: [Beverage] {
-        return beverage.filter { $0.brand == .Mega }
+        return beverage.filter {
+            $0.brand == .mega
+        }
     }
     
-    func fetchData(brand: Brand, category: Category, option: Option? = nil) -> [Beverage] {
-        return beverage.filter { $0.category == category && $0.brand == brand && $0.option == option}
+    func fetchData(brand: Brand,
+                   category: Category,
+                   option: Option? = nil) -> [Beverage] {
+        return beverage.filter {
+            $0.category == category &&
+            $0.brand == brand &&
+            $0.option == option
+        }
     }
     
-    func fecthRecommendedData(brand: Brand, category: Category, option: Option? = nil) -> [Beverage] {
+    func fecthRecommendedData(brand: Brand,
+                              category: Category,
+                              option: Option? = nil) -> [Beverage] {
         return self.fetchData(brand: brand, category: category, option: option).filter{ $0.recommended == true }
     }
 }
@@ -51,7 +65,7 @@ struct Beverage: Decodable {
     let category: Category
     let option: Option?
     let brand: Brand
-    var recommended: Bool = false
+    var recommended: Bool?
     var imageName: String {
         return "\(category)" + "\(option == nil ? "-" : "\(option!)-")" + "\(name)" + "-\(brand)"
     }
