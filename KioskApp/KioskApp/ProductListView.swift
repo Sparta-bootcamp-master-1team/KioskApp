@@ -12,12 +12,19 @@ class ProductListView: UIView {
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout())
-        collectionView.backgroundColor = .white
-        collectionView.layer.cornerRadius = 12
         collectionView.alwaysBounceVertical = false
+        collectionView.backgroundColor = .clear
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
         return collectionView
     }()
+    
+    private let pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.pageIndicatorTintColor = .systemGray
+        return pageControl
+    }()
+    
     enum Section { case main }
     typealias Item = TestModel
     var datasource: UICollectionViewDiffableDataSource<Section, Item>!
@@ -33,10 +40,21 @@ class ProductListView: UIView {
     }
     
     private func setupUI() {
-        self.addSubview(collectionView)
+        self.backgroundColor = .white
+        self.layer.cornerRadius = 12
+        
+        [collectionView, pageControl].forEach { self.addSubview($0) }
         
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(collectionView.snp.width).multipliedBy(1.2)
+        }
+        
+        pageControl.snp.makeConstraints {
+            $0.top.equalTo(collectionView.snp.bottom).offset(5)
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
     }
     
@@ -83,14 +101,29 @@ class ProductListView: UIView {
         let section = NSCollectionLayoutSection(group: verticalGroup)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         
+        section.visibleItemsInvalidationHandler = { (items, offset, env) in
+            let index = Int((offset.x / env.container.contentSize.width).rounded())
+            self.pageControl.currentPage = index
+        }
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
     
-    func configureSnapshot(items: [TestModel]) {
+    private func configureSnapshot(items: [TestModel]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
         self.datasource.apply(snapshot)
+    }
+    
+    private func configurePageControl(count: Int) {
+        let pageCount = Int(ceil(Double(count) / 4.0))
+        pageControl.numberOfPages = pageCount
+    }
+    
+    func configure(items: [TestModel]) {
+        configureSnapshot(items: items)
+        configurePageControl(count: items.count)
     }
 
 }
