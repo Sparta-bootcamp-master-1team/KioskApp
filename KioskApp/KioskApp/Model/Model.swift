@@ -1,26 +1,26 @@
 import Foundation
 
-/// Category: 카테고리 (Coffee, Beverage, Desert)
+/// 카테고리 (Coffee, Beverage, Desert)
 enum Category: String, Decodable {
     case Coffee
     case Beverage
     case Desert
 }
 
-/// Brand: 3사 브랜드 (Baik, TheVenti, Mega)
+/// 3사 브랜드 (Baik, TheVenti, Mega)
 enum Brand: String, Decodable {
     case Baik
     case TheVenti
     case Mega
 }
 
-/// Option: 커피와 음료의 옵션, 디저트는 none  (HOT, ICE, none)
+/// 커피와 음료의 옵션, 디저트는 none  (HOT, ICE, none)
 enum Option: String, Decodable{
     case HOT
     case ICE
 }
 
-/// Product: 모든 브랜드의 커피 배열을 담은 구조체
+/// 모든 브랜드의 커피 배열을 담은 구조체
 struct Product: Decodable {
     let beverage: [Beverage]
     
@@ -40,7 +40,7 @@ struct Product: Decodable {
     }
 }
 
-/// Beverage: 제품 하나의 세부정보 리스트
+/// 제품 하나의 세부정보 리스트
 struct Beverage: Decodable {
     let name: String
     let price: Int
