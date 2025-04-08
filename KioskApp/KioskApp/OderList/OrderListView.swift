@@ -16,6 +16,9 @@ class OrderListView: UIView, OrderListTableViewDelegate {
     /// "장바구니"라는 타이틀을 표시합니다.
     private let titleLabel = UILabel()
     
+    /// 현재 담긴 주문의 총 가격을 표시하는 레이블입니다.
+    private let totalPriceLabel = UILabel()
+    
     /// 주문 목록(장바구니 항목들)을 표시하는 테이블 뷰입니다.
     private let orderListTableView = OrderListTableView()
     
@@ -44,7 +47,9 @@ class OrderListView: UIView, OrderListTableViewDelegate {
     private func setupSubViews() {
         addSubview(titleLabel)
         addSubview(orderListTableView)
+        addSubview(totalPriceLabel)
     }
+
     /// 컴포넌트들의 오토레이아웃 제약 조건을 설정합니다.
     private func setupLayout() {
         // 타이틀
@@ -60,6 +65,12 @@ class OrderListView: UIView, OrderListTableViewDelegate {
             orderListTableViewHeightConstraint = make.height.greaterThanOrEqualTo(140).constraint
         }
 
+        // 총 가격 레이블
+        totalPriceLabel.snp.makeConstraints { make in
+            make.top.equalTo(orderListTableView.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+
     }
 
     /// 각 컴포넌트들의 스타일을 지정합니다. (폰트, 색상 등)
@@ -69,6 +80,7 @@ class OrderListView: UIView, OrderListTableViewDelegate {
         titleLabel.text = "장바구니"
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         
+        totalPriceLabel.font = .systemFont(ofSize: 14, weight: .bold)
     }
 
     // MARK: - Action
@@ -88,6 +100,11 @@ class OrderListView: UIView, OrderListTableViewDelegate {
         }
     }
 
+    /// 현재 장바구니의 총 가격을 계산해 텍스트로 표시합니다.
+    func updateTotalPrice() {
+        let total = OrderListManager.shared.totalPrice()
+        totalPriceLabel.text = "총 가격: \(total)원"
+    }
 
     /// OrderListTableView 내부에서 수량이 변경되었을 때 호출되는 델리게이트 메서드입니다.
     func orderListTableViewDidUpdate() {
