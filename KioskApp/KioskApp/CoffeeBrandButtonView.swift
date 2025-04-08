@@ -37,7 +37,7 @@ class CoffeeBrandButtonView: UIView {
         return button
     }()
     
-    // MARK: init과 setupUI
+    // MARK: init 및 UI 설정
     
     override init(frame: CGRect) {
         super.init(frame: frame)

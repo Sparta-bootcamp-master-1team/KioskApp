@@ -14,8 +14,10 @@ class CoffeeCategoryCollectionView: UIView,
     // 메뉴 카테고리 배열
     private let categories = ["추천메뉴", "커피(ICED)", "커피(HOT)", "음료(ICED)", "음료(HOT)", "디저트"]
     
+    // MARK: UICollectionView
+    
     // 메뉴 카테고리를 위한 UICollectionView 생성
-    lazy var categoryCollectionView: UICollectionView = {
+    private lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
@@ -28,6 +30,8 @@ class CoffeeCategoryCollectionView: UIView,
         view.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
         return view
     }()
+    
+    // MARK: init 및 UI 설정
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,6 +50,9 @@ class CoffeeCategoryCollectionView: UIView,
         }
     }
     
+    // MARK: UICollectionView DataSource & Delegate Methods
+    
+    // 셀의 개수 반환 함수
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
@@ -53,6 +60,7 @@ class CoffeeCategoryCollectionView: UIView,
         return categories.count // 카테고리 개수 반환
     }
     
+    // 셀을 구성하고 데이터를 전달하는 함수
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
@@ -66,11 +74,11 @@ class CoffeeCategoryCollectionView: UIView,
             return UICollectionViewCell()
         }
         
-        cell.configure(title: categories[indexPath.item]) // 셀에 데이터 전달
+        cell.configureUI(title: categories[indexPath.item]) // 셀에 데이터 전달
         return cell
     }
     
-    // 셀 크기 설정
+    // 셀 크기 설정 함수
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -79,6 +87,7 @@ class CoffeeCategoryCollectionView: UIView,
         return CGSize(width: 100, height: 40) // 각 셀의 크기 설정
     }
     
+    // 셀이 선택되었을 때 실행하는 함수
     func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
