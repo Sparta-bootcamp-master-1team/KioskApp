@@ -12,13 +12,22 @@ import SnapKit
 class OrderListView: UIView, OrderListTableViewDelegate {
     
     // MARK: - UI Components
+
     /// "장바구니"라는 타이틀을 표시합니다.
     private let titleLabel = UILabel()
+    
+    /// 주문 목록(장바구니 항목들)을 표시하는 테이블 뷰입니다.
+    private let orderListTableView = OrderListTableView()
+    
+    /// 테이블 뷰의 높이를 동적으로 조정하기 위한 제약 조건입니다.
+    private var orderListTableViewHeightConstraint: Constraint?
+    
     // MARK: - Initializers
     
     /// 코드로 뷰를 초기화할 때 호출됩니다.
     override init(frame: CGRect) {
         super.init(frame: frame)
+        orderListTableView.delegate = self
         setupSubViews()
         setupLayout()
         setupStyle()
@@ -34,6 +43,7 @@ class OrderListView: UIView, OrderListTableViewDelegate {
     /// UI 컴포넌트들을 뷰에 추가합니다.
     private func setupSubViews() {
         addSubview(titleLabel)
+        addSubview(orderListTableView)
     }
     /// 컴포넌트들의 오토레이아웃 제약 조건을 설정합니다.
     private func setupLayout() {
@@ -42,6 +52,14 @@ class OrderListView: UIView, OrderListTableViewDelegate {
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.equalToSuperview().offset(16)
         }
+
+        // 주문 목록 테이블
+        orderListTableView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+            orderListTableViewHeightConstraint = make.height.greaterThanOrEqualTo(140).constraint
+        }
+
     }
 
     /// 각 컴포넌트들의 스타일을 지정합니다. (폰트, 색상 등)
@@ -57,6 +75,24 @@ class OrderListView: UIView, OrderListTableViewDelegate {
     
     
     // MARK: - Public Methods
+
+    /// 테이블을 다시 그리며, 내부 높이도 계산하여 업데이트합니다.
+    func reloadTable() {
+        orderListTableView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.orderListTableView.layoutIfNeeded()
+            let height = self.orderListTableView.intrinsicContentHeight()
+            self.orderListTableViewHeightConstraint?.update(offset: max(140, height))
+            self.updateTotalPrice()
+        }
+    }
+
+
+    /// OrderListTableView 내부에서 수량이 변경되었을 때 호출되는 델리게이트 메서드입니다.
+    func orderListTableViewDidUpdate() {
+        updateTotalPrice()
+    }
 
     // MARK: - Private Methods
 }
