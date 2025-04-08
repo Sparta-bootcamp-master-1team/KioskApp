@@ -53,6 +53,7 @@ struct Beverage: Decodable {
     }
 }
 
+/// 장바구니 제품 모델
 struct OrderItem {
     let name: String
     let price: Int
