@@ -38,6 +38,10 @@ struct Product: Decodable {
     func fetchData(brand: Brand, category: Category, option: Option? = nil) -> [Beverage] {
         return beverage.filter { $0.category == category && $0.brand == brand && $0.option == option}
     }
+    
+    func fecthRecommendedData(brand: Brand, category: Category, option: Option? = nil) -> [Beverage] {
+        return self.fetchData(brand: brand, category: category, option: option).filter{ $0.recommended == true }
+    }
 }
 
 /// 제품 하나의 세부정보 리스트
@@ -47,7 +51,7 @@ struct Beverage: Decodable {
     let category: Category
     let option: Option?
     let brand: Brand
-    
+    var recommended: Bool = false
     var imageName: String {
         return "\(category)" + "\(option == nil ? "-" : "\(option!)-")" + "\(name)" + "-\(brand)"
     }
