@@ -152,9 +152,31 @@ class OrderItemCell: UITableViewCell {
         removeButton.tintColor = .gray
     }
     
+    /// 버튼 클릭 시 실행될 메서드를 연결합니다.
+    private func setupActions() {
+        minusButton.addTarget(self, action: #selector(didTapMinus), for: .touchUpInside)
+        plusButton.addTarget(self, action: #selector(didTapPlus), for: .touchUpInside)
+        removeButton.addTarget(self, action: #selector(didTapRemove), for: .touchUpInside)
+    }
     
     // MARK: - Action
     // 버튼 등 액션 연결 및 함수
+    /// 수량 감소 버튼 클릭 시 델리게이트에 전달
+    @objc private func didTapMinus() {
+        delegate?.orderItemCellDidTapDecrement(self)
+    }
+    
+    /// 수량 증가 버튼 클릭 시 델리게이트에 전달
+    @objc private func didTapPlus() {
+        delegate?.orderItemCellDidTapIncrement(self)
+    }
+    
+    /// 삭제 버튼 클릭 시 델리게이트에 전달
+    @objc private func didTapRemove() {
+        delegate?.orderItemCellDidTapRemove(self)
+    }
+
+    
     // MARK: - Public Methods
     /// 주문 항목(OrderItem)을 받아 UI 요소에 값을 설정합니다.
     func configure(with order: OrderItem) {
