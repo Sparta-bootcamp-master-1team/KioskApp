@@ -12,6 +12,14 @@ class ProductCell: UICollectionViewCell {
     
     static let reuseIdentifier: String = "ProductCell"
     
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        return view
+    }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -43,8 +51,25 @@ class ProductCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        applyShadow()
+    }
+    
+    private func applyShadow() {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.1
+        self.layer.shadowRadius = 10
+        self.layer.shadowOffset = CGSize(width: 0, height: 6)
+    }
+    
     private func setupUI() {
-        [imageView, productNameLabel, priceLabel].forEach { self.contentView.addSubview($0) }
+        self.contentView.addSubview(containerView)
+        [imageView, productNameLabel, priceLabel].forEach { containerView.addSubview($0) }
+        
+        containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(8)
+        }
         
         imageView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -58,7 +83,7 @@ class ProductCell: UICollectionViewCell {
         }
         
         priceLabel.snp.makeConstraints {
-            $0.top.equalTo(productNameLabel.snp.bottom).offset(2)
+            $0.top.equalTo(productNameLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalToSuperview()
         }
     }

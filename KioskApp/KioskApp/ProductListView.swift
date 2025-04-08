@@ -48,13 +48,13 @@ class ProductListView: UIView {
         collectionView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(collectionView.snp.width).multipliedBy(1.2)
         }
         
         pageControl.snp.makeConstraints {
             $0.top.equalTo(collectionView.snp.bottom).offset(5)
             $0.bottom.equalToSuperview()
             $0.centerX.equalToSuperview()
+            $0.height.equalTo(30)
         }
     }
     
@@ -78,7 +78,6 @@ class ProductListView: UIView {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         
         let horizontalGroupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
