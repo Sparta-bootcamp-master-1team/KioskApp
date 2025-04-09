@@ -12,8 +12,8 @@ class ViewController: UIViewController {
     private let contentView = UIView()
     
     private let productGirdView = ProductGridView()
+    private let orderListView = OrderListView()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .yellow
@@ -24,15 +24,13 @@ class ViewController: UIViewController {
     }
     
     private func setAddSubView() {
-        [
-            coffeeBrandButtonView,
-            coffeeCategoryView,
-            scrollView
-        ].forEach { self.view.addSubview($0) }
+        [coffeeBrandButtonView, coffeeCategoryView, scrollView]
+            .forEach { self.view.addSubview($0) }
         
         scrollView.addSubview(contentView)
         
-        [productGirdView].forEach { self.contentView.addSubview($0) }
+        [productGirdView, orderListView]
+            .forEach { self.contentView.addSubview($0) }
     }
     
     private func setupUI() {
@@ -63,9 +61,13 @@ class ViewController: UIViewController {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
             $0.height.equalTo(productGirdView.snp.width).multipliedBy(1.4)
-            $0.bottom.equalToSuperview()
         }
         
+        orderListView.snp.makeConstraints {
+            $0.top.equalTo(productGirdView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
         
     }
     

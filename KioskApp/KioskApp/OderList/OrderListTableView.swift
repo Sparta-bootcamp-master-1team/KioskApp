@@ -12,7 +12,7 @@ protocol OrderListTableViewDelegate: AnyObject {
     func orderListTableViewDidUpdate()
 }
 
-class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, OrderItemCellDelegate {
+class OrderListTableView: UIView {
 
     // MARK: - UI Components
     // 뷰에 들어갈 컴포넌트들을 정의하는 공간
@@ -63,11 +63,11 @@ class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, Or
     private func setupTableView() {
         // 테이블 뷰의 delegate를 현재 클래스(self)로 설정합니다.
         // 셀 선택 등 사용자 상호작용을 제어할 수 있습니다.
-        tableView.delegate = self
-
-        // 테이블 뷰의 데이터 소스를 현재 클래스(self)로 설정합니다.
-        // 셀 개수 및 셀 생성 등 데이터를 테이블에 제공하는 역할을 합니다.
-        tableView.dataSource = self
+//        tableView.delegate = self
+//
+//        // 테이블 뷰의 데이터 소스를 현재 클래스(self)로 설정합니다.
+//        // 셀 개수 및 셀 생성 등 데이터를 테이블에 제공하는 역할을 합니다.
+//        tableView.dataSource = self
 
         // 테이블 뷰에서 스크롤을 비활성화합니다.
         // 셀 개수에 따라 테이블 높이를 늘리고 싶을 때 사용합니다.
@@ -184,56 +184,56 @@ class OrderListTableView: UIView, UITableViewDelegate, UITableViewDataSource, Or
         return 1
     }
 
-    /// 테이블 뷰의 셀 개수를 반환합니다.
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return OrderListManager.shared.items.count
-    }
-
-    /// 각 셀에 맞는 데이터를 설정하고 반환합니다.
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // 셀을 재사용 큐에서 꺼내고, OrderItemCell로 캐스팅합니다.
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as? OrderItemCell else {
-            // 캐스팅에 실패할 경우 기본 셀을 반환하여 앱 크래시 방지
-            return UITableViewCell()
-        }
-        // 현재 indexPath에 해당하는 주문 데이터를 가져옵니다.
-        let order = OrderListManager.shared.items[indexPath.row]
-
-        // 셀에 주문 데이터를 설정합니다 (ex: 이름, 수량, 가격 등)
-        cell.configure(with: order)
-
-        // 델리게이트 연결
-        cell.delegate = self
-
-        // 설정된 셀을 반환하여 테이블 뷰에 표시합니다.
-        return cell
-    }
+//    /// 테이블 뷰의 셀 개수를 반환합니다.
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return OrderListManager.shared.items.count
+//    }
+//
+//    /// 각 셀에 맞는 데이터를 설정하고 반환합니다.
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        // 셀을 재사용 큐에서 꺼내고, OrderItemCell로 캐스팅합니다.
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as? OrderItemCell else {
+//            // 캐스팅에 실패할 경우 기본 셀을 반환하여 앱 크래시 방지
+//            return UITableViewCell()
+//        }
+//        // 현재 indexPath에 해당하는 주문 데이터를 가져옵니다.
+//        let order = OrderListManager.shared.items[indexPath.row]
+//
+//        // 셀에 주문 데이터를 설정합니다 (ex: 이름, 수량, 가격 등)
+//        cell.configure(with: order)
+//
+//        // 델리게이트 연결
+//        cell.delegate = self
+//
+//        // 설정된 셀을 반환하여 테이블 뷰에 표시합니다.
+//        return cell
+//    }
 
     // MARK: - CartItemCellDelegate
 
-    func orderItemCellDidTapIncrement(_ cell: OrderItemCell) {
-        guard let indexPath = indexPath(for: cell) else { return }
-        let item = OrderListManager.shared.items[indexPath.row].coffee
-        OrderListManager.shared.add(item)
-        reloadData()
-        delegate?.orderListTableViewDidUpdate()
-    }
-
-    func orderItemCellDidTapDecrement(_ cell: OrderItemCell) {
-        guard let indexPath = indexPath(for: cell) else { return }
-        let item = OrderListManager.shared.items[indexPath.row].coffee
-        OrderListManager.shared.decrement(item)
-        reloadData()
-        delegate?.orderListTableViewDidUpdate()
-    }
-
-    func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
-        guard let indexPath = indexPath(for: cell) else { return }
-        let item = OrderListManager.shared.items[indexPath.row].coffee
-        OrderListManager.shared.remove(item)
-        reloadData()
-        delegate?.orderListTableViewDidUpdate()
-    }
+//    func orderItemCellDidTapIncrement(_ cell: OrderItemCell) {
+//        guard let indexPath = indexPath(for: cell) else { return }
+//        let item = OrderListManager.shared.items[indexPath.row].coffee
+//        OrderListManager.shared.add(item)
+//        reloadData()
+//        delegate?.orderListTableViewDidUpdate()
+//    }
+//
+//    func orderItemCellDidTapDecrement(_ cell: OrderItemCell) {
+//        guard let indexPath = indexPath(for: cell) else { return }
+//        let item = OrderListManager.shared.items[indexPath.row].coffee
+//        OrderListManager.shared.decrement(item)
+//        reloadData()
+//        delegate?.orderListTableViewDidUpdate()
+//    }
+//
+//    func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
+//        guard let indexPath = indexPath(for: cell) else { return }
+//        let item = OrderListManager.shared.items[indexPath.row].coffee
+//        OrderListManager.shared.remove(item)
+//        reloadData()
+//        delegate?.orderListTableViewDidUpdate()
+//    }
 
     // MARK: - Private Methods
     // 내부 로직 처리용 메서드들
