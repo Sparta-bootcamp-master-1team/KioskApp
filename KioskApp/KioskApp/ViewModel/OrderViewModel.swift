@@ -45,9 +45,9 @@ final class OrderViewModel {
     }
     
     /// 현재 선택된 옵션 (기본값: .hot)
-    private(set) var selectedOption: Option = .hot {
+    private(set) var selectedOption: Option? = .ice {
         didSet {
-            OptionChanged?(selectedOption)
+            categoryChanged?()
         }
     }
     
@@ -62,8 +62,6 @@ final class OrderViewModel {
     /// 브랜드가 변경될 때 호출되는 클로저
     var brandChanged: ((Brand) -> Void)?
     
-    /// 옵션이 변경될 때 호출되는 클로저
-    var OptionChanged: ((Option) -> Void)?
     
     /// JSON 파일에서 상품 데이터를 불러와 ViewModel에 저장합니다.
     /// 데이터가 성공적으로 로드되면 `product` 프로퍼티에 저장되고,
@@ -131,6 +129,10 @@ final class OrderViewModel {
         selectedCategory = category
     }
     
+    func changeOption(_ option: Option?) {
+        selectedOption = option
+    }
+    
     /// 현재 선택된 브랜드를 변경합니다.
     /// - Parameter brand: 변경할 브랜드
     func changeBrand(_ brand: Brand) {
@@ -139,8 +141,7 @@ final class OrderViewModel {
         selectedCategory = .coffee
         selectedOption = .hot
         
-        /// 회의 필요
-        // categoryChanged?(beverage ?? [])
+        categoryChanged?()
     }
     
     
