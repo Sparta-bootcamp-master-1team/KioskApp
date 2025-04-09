@@ -18,8 +18,8 @@ final class OrderViewModel {
         }
     }
     
-    /// 현재 선택된 브랜드 (기본값: .baik)
-    private(set) var selectedBrand: Brand = .baik {
+    /// 현재 선택된 브랜드 (기본값: .mega)
+    private(set) var selectedBrand: Brand = .mega {
         didSet {
             brandChanged?(selectedBrand)
         }
