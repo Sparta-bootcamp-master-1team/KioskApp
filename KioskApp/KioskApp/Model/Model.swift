@@ -2,8 +2,10 @@ import Foundation
 
 /// 카테고리 (Coffee, Beverage, Desert)
 enum Category: String, Decodable {
-    case coffee = "Coffee"
-    case beverage = "Beverage"
+    case coffeeHot = "CoffeeHOT"
+    case coffeeIce = "CoffeeICE"
+    case beverageHot = "BeverageHOT"
+    case beverageIce = "BeverageICE"
     case dessert = "Dessert"
 }
 
@@ -12,12 +14,6 @@ enum Brand: String, Decodable {
     case paik = "Paik"
     case theVenti = "TheVenti"
     case mega = "Mega"
-}
-
-/// 커피와 음료의 옵션, 디저트는 none  (HOT, ICE, none)
-enum Option: String, Decodable{
-    case hot = "HOT"
-    case ice = "ICE"
 }
 
 /// 모든 브랜드의 커피 배열을 담은 구조체
@@ -59,7 +55,7 @@ struct Product: Decodable {
 }
 
 /// 제품 하나의 세부정보 리스트
-struct Beverage: Decodable {
+struct Beverage: Decodable, Hashable {
     let name: String
     let price: Int
     let category: Category
@@ -67,7 +63,7 @@ struct Beverage: Decodable {
     let brand: Brand
     var recommended: Bool?
     var imageName: String {
-        return "\(category.rawValue)" + "\(option == nil ? "-" : "\(option?.rawValue!)-")" + "\(name)" + "-\(brand.rawValue)"
+        return "\(category.rawValue)" + "\(option == nil ? "-" : "\(option?.rawValue)-")" + "\(name)" + "-\(brand.rawValue)"
     }
 }
 
