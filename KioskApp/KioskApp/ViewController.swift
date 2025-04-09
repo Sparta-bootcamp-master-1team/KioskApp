@@ -68,7 +68,11 @@ class ViewController: UIViewController {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
-        
+    }
+    
+    private func setupDelegate() {
+        productGirdView.collectionView.delegate = self
+        orderListView.orderListTableView.tableView.dataSource = self
     }
     
     private func fetchTestModel() {
@@ -85,6 +89,31 @@ class ViewController: UIViewController {
     
     private func configureUI() {
         productGirdView.configure(items: testModel)
+}
+
+extension ViewController: CoffeeButtonViewDelegate {
+    func brandButtonDidTap(brand: Brand) {
+        viewModel.changeBrand(brand)
     }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = productGirdView.datasource.itemIdentifier(for: indexPath) else { return }
+        viewModel.addOrder(item)
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.orderList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemCell
+        cell.configure(with: viewModel.orderList[indexPath.row])
+        return cell
+    }
+    
     
 }

@@ -11,7 +11,7 @@ import SnapKit
 class ProductGridView: UIView {
     
     // 상품 목록을 표시할 컬렉션 뷰
-    private lazy var collectionView: UICollectionView = {
+    private(set) lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout())
         collectionView.alwaysBounceVertical = false // 수직 바운스 비활성화
         collectionView.backgroundColor = .clear
@@ -31,7 +31,7 @@ class ProductGridView: UIView {
     
     enum Section { case main }
     typealias Item = Beverage
-    var datasource: UICollectionViewDiffableDataSource<Section, Item>!
+    private(set) var datasource: UICollectionViewDiffableDataSource<Section, Item>!
     
     // MARK: - 초기화
     

@@ -16,7 +16,7 @@ class OrderListTableView: UIView {
 
     // MARK: - UI Components
     // 뷰에 들어갈 컴포넌트들을 정의하는 공간
-    private let tableView = UITableView()
+    let tableView = UITableView()
 
     weak var delegate: OrderListTableViewDelegate?
 
@@ -184,26 +184,24 @@ class OrderListTableView: UIView {
         return 1
     }
 
-//    /// 테이블 뷰의 셀 개수를 반환합니다.
+    /// 테이블 뷰의 셀 개수를 반환합니다.
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return OrderListManager.shared.items.count
+//        return orderItems.count
 //    }
-//
-//    /// 각 셀에 맞는 데이터를 설정하고 반환합니다.
+
+    /// 각 셀에 맞는 데이터를 설정하고 반환합니다.
 //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        // 셀을 재사용 큐에서 꺼내고, OrderItemCell로 캐스팅합니다.
 //        guard let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as? OrderItemCell else {
 //            // 캐스팅에 실패할 경우 기본 셀을 반환하여 앱 크래시 방지
 //            return UITableViewCell()
 //        }
-//        // 현재 indexPath에 해당하는 주문 데이터를 가져옵니다.
-//        let order = OrderListManager.shared.items[indexPath.row]
 //
 //        // 셀에 주문 데이터를 설정합니다 (ex: 이름, 수량, 가격 등)
-//        cell.configure(with: order)
+//        cell.configure(with: orderItems[indexPath.row])
 //
 //        // 델리게이트 연결
-//        cell.delegate = self
+////        cell.delegate = self
 //
 //        // 설정된 셀을 반환하여 테이블 뷰에 표시합니다.
 //        return cell

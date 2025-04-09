@@ -20,7 +20,7 @@ class OrderListView: UIView {
     private let totalPriceLabel = UILabel()
     
     /// 주문 목록(장바구니 항목들)을 표시하는 테이블 뷰입니다.
-    private let orderListTableView = OrderListTableView()
+    let orderListTableView = OrderListTableView()
     
     /// 테이블 뷰의 높이를 동적으로 조정하기 위한 제약 조건입니다.
     private var orderListTableViewHeightConstraint: Constraint?
@@ -145,16 +145,16 @@ class OrderListView: UIView {
     // MARK: - Public Methods
 
     /// 테이블을 다시 그리며, 내부 높이도 계산하여 업데이트합니다.
-//    func reloadTable() {
-//        orderListTableView.reloadData()
-//        
-//        DispatchQueue.main.async {
-//            self.orderListTableView.layoutIfNeeded()
-//            let height = self.orderListTableView.intrinsicContentHeight()
-//            self.orderListTableViewHeightConstraint?.update(offset: max(140, height))
+    func reloadTable() {
+        orderListTableView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.orderListTableView.layoutIfNeeded()
+            let height = self.orderListTableView.intrinsicContentHeight()
+            self.orderListTableViewHeightConstraint?.update(offset: max(140, height))
 //            self.updateTotalPrice()
-//        }
-//    }
+        }
+    }
 //
 //    / 현재 장바구니의 총 가격을 계산해 텍스트로 표시합니다.
 //    func updateTotalPrice() {
