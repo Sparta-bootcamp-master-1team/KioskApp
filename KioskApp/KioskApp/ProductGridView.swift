@@ -24,6 +24,7 @@ class ProductGridView: UIView {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .black // 현재 페이지 색상
         pageControl.pageIndicatorTintColor = .systemGray    // 나머지 점 색상
+        pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
     
