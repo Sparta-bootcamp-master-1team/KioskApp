@@ -9,7 +9,7 @@ enum Category: String, Decodable {
 
 /// 3사 브랜드 (Baik, TheVenti, Mega)
 enum Brand: String, Decodable {
-    case baik = "Baik"
+    case paik = "Paik"
     case theVenti = "TheVenti"
     case mega = "Mega"
 }
@@ -26,7 +26,7 @@ struct Product: Decodable {
     
     var baiksProduct: [Beverage] {
         return beverage.filter {
-            $0.brand == .baik
+            $0.brand == .paik
         }
     }
     
