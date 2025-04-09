@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     private func setupDelegate() {
         coffeeBrandButtonView.delegate = self
         coffeeCategoryView.delegate = self
-        productGirdView.collectionView.delegate = self
+        productGirdView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
     }
     
@@ -94,6 +94,10 @@ class ViewController: UIViewController {
         
         viewModel.categoryChanged = { [weak self] in
             self?.configureUI()
+        }
+        
+        viewModel.orderProductsChanged = { [weak self] in
+            self?.orderListView.reloadTable()
         }
     }
     
@@ -141,11 +145,9 @@ extension ViewController: CoffeeCategoryCollectionViewDelegate {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let item = productGirdView.datasource.itemIdentifier(for: indexPath) else { return }
+extension ViewController: productGridViewDelegate {
+    func collectionViewCellDidTap(item: Beverage) {
         viewModel.addOrder(item)
-        orderListView.reloadTable()
     }
 }
 
