@@ -53,7 +53,8 @@ class CoffeeBrandButtonView: UIView {
         self.addSubview(coffeeBrandButton)
         
         coffeeBrandButton.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
     }
     
