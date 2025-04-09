@@ -48,6 +48,18 @@ final class OrderViewModel {
         }
     }
     
-    
+    func orderCountIncreament(_ beverage: Beverage) {
+        guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
+        orderList[index].increaseCount()
+    }
+
+    func orderCountDecreament(_ beverage: Beverage) {
+        guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
+        if orderList[index].count > 1 {
+            orderList[index].decreaseCount()
+        } else {
+            orderList.remove(at: index)
+        }
+    }
     
 }
