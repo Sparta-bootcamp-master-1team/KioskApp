@@ -50,21 +50,6 @@ class CoffeeCategoryCollectionView: UIView,
         }
     }
     
-    //MARK: layoutSubviews
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        // 초기 선택 상태 설정
-        let indexPath = IndexPath(item: 0, section: 0) // 첫 번째 셀
-        categoryCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        
-        // 선택된 셀의 반환 및 스타일 적용
-        if let cell = categoryCollectionView.cellForItem(at: indexPath) as? CategoryCell {
-            cell.isSelected = true
-        }
-    }
-    
     // MARK: UICollectionView DataSource & Delegate Methods
     
     // 셀의 개수 반환 함수
