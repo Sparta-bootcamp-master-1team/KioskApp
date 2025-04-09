@@ -15,9 +15,8 @@ final class NetworkManager {
     
     func fetchData<T: Decodable>(for type: T.Type ,
                                  brand: Brand? = nil,
-                                 category: Category? = nil,
-                                 option: Option? = nil) async throws -> T {
-        let urlComponents = urlComponenetHandler.fetchURLComponents(brand: brand, category: category, option: option)
+                                 category: Category? = nil) async throws -> T {
+        let urlComponents = urlComponenetHandler.fetchURLComponents(brand: brand, category: category)
         
         guard let url = urlComponents.url else {
             throw(NetworkError.invalidURL)

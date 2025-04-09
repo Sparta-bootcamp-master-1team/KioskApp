@@ -2,8 +2,7 @@ import Foundation
 
 final class URLComponentHandler {
     func fetchURLComponents(brand: Brand? = nil,
-                            category: Category? = nil,
-                            option: Option? = nil) -> URLComponents {
+                            category: Category? = nil) -> URLComponents {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.github.com"
@@ -19,9 +18,8 @@ final class URLComponentHandler {
             return components
         }
         
-        let categoryOption = category + "\(option?.rawValue ?? "")"
         paths.append(brand)
-        paths.append(categoryOption)
+        paths.append(category)
         
         components.path = "/" + "\(paths.joined(separator: "/"))"
         return components
