@@ -150,5 +150,9 @@ class ProductGridView: UIView {
     func configure(items: [Beverage]) {
         configureSnapshot(items: items)
         configurePageControl(count: items.count)
+        
+        if items.count > 0 {
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+        }
     }
 }
