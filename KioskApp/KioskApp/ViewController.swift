@@ -73,6 +73,7 @@ class ViewController: UIViewController {
     
     private func setupDelegate() {
         coffeeBrandButtonView.delegate = self
+        coffeeCategoryView.delegate = self
         productGirdView.collectionView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
     }
@@ -101,6 +102,10 @@ class ViewController: UIViewController {
         coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
     }
     
+    private func categoryChanged(index: Int) {
+        
+    }
+    
     private func configureUI() {
         guard let beverage = viewModel.beverage else { return }
         productGirdView.configure(items: beverage)
@@ -114,10 +119,33 @@ extension ViewController: CoffeeButtonViewDelegate {
     }
 }
 
+extension ViewController: CoffeeCategoryCollectionViewDelegate {
+    func categoryButtonDidTap(index: Int) {
+        switch index {
+        case 1:
+            viewModel.changeCategory(.coffee)
+            viewModel.changeOption(.ice)
+        case 2:
+            viewModel.changeCategory(.coffee)
+            viewModel.changeOption(.hot)
+        case 3:
+            viewModel.changeCategory(.beverage)
+            viewModel.changeOption(.ice)
+        case 4:
+            viewModel.changeCategory(.beverage)
+            viewModel.changeOption(.hot)
+        default:
+            viewModel.changeCategory(.dessert)
+            viewModel.changeOption(nil)
+        }
+    }
+}
+
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = productGirdView.datasource.itemIdentifier(for: indexPath) else { return }
         viewModel.addOrder(item)
+        orderListView.reloadTable()
     }
 }
 
@@ -131,6 +159,4 @@ extension ViewController: UITableViewDataSource {
         cell.configure(with: viewModel.orderList[indexPath.row])
         return cell
     }
-    
-    
 }

@@ -8,16 +8,23 @@
 import UIKit
 import SnapKit
 
+protocol CoffeeCategoryCollectionViewDelegate: AnyObject {
+    func categoryButtonDidTap(index: Int)
+}
+
 class CoffeeCategoryCollectionView: UIView,
                             UICollectionViewDataSource,
                             UICollectionViewDelegateFlowLayout {
+    
+    weak var delegate: CoffeeCategoryCollectionViewDelegate?
+    
     // 메뉴 카테고리 배열
     private let categories = ["추천메뉴", "커피(ICED)", "커피(HOT)", "음료(ICED)", "음료(HOT)", "디저트"]
     
     // MARK: UICollectionView
     
     // 메뉴 카테고리를 위한 UICollectionView 생성
-    private lazy var categoryCollectionView: UICollectionView = {
+    private(set) lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
@@ -107,6 +114,6 @@ class CoffeeCategoryCollectionView: UIView,
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        print("\(categories[indexPath.item]) 선택됨") // 실행되는지 테스트
+        delegate?.categoryButtonDidTap(index: indexPath.row)
     }
 }
