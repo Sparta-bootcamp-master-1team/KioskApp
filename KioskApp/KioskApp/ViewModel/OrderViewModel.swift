@@ -10,11 +10,8 @@ final class OrderViewModel {
     
     // MARK: - 클로저
     ///
-    var orderProductsChanged: ((OrderItem) -> Void)?
+    var orderProductsChanged: (([OrderItem]) -> Void)?
     var categoryChanged: ((Category) -> Void)?
     var brandChanged: ((Brand) -> Void)?
-    
-    
-    
     
 }
