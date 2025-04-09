@@ -6,6 +6,42 @@ enum NetworkError: Error {
     case missingData
     case invalidURL
     case transportError
+    
+    var customLocalizedDescription: String {
+        switch self {
+        case .decodingError:
+            return "Decoding Error"
+        case .serverError(code: let code):
+            return "Server Error (\(code))"
+        case .missingData:
+            return "Missing Data"
+        case .invalidURL:
+            return "Invalid URL"
+        case .transportError:
+            return "Transport Error"
+        }
+    }
+}
+
+enum NetworkSequence {
+    static let array: [(brand: Brand, category: Category)] =
+    [
+        (.paik, .dessert),
+        (.paik, .coffeeHot),
+        (.paik, .coffeeIce),
+        (.paik, .beverageHot),
+        (.paik, .beverageIce),
+        (.theVenti, .dessert),
+        (.theVenti, .coffeeHot),
+        (.theVenti, .coffeeIce),
+        (.theVenti, .beverageHot),
+        (.theVenti, .beverageIce),
+        (.mega, .dessert),
+        (.mega, .coffeeHot),
+        (.mega, .coffeeIce),
+        (.mega, .beverageHot),
+        (.mega, .beverageIce),
+    ]
 }
 
 final class NetworkManager {
