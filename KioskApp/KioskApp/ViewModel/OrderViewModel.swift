@@ -54,6 +54,36 @@ final class OrderViewModel {
     /// 옵션이 변경될 때 호출되는 클로저
     var OptionChanged: ((Option) -> Void)?
     
+    // MARK: - 데이터 저장
+    /// JSON으로부터 불러온 전체 상품 데이터를 저장하는 프로퍼티입니다.
+    /// 내부적으로 `fetchProductData()`를 통해 주입되며,
+    /// `selectedBrand`, `selectedCategory`, `selectedOption` 조합에 따라 필터링된 음료 리스트를 제공합니다.
+    private var product: Product?
+    
+    /// 현재 선택된 브랜드, 카테고리, 옵션에 따라 필터링된 음료 목록을 반환합니다.
+    /// - Returns: 선택된 조건에 맞는 `[Beverage]` 배열 (데이터가 없으면 `nil`)
+    private var beverage: [Beverage]? {
+        product?.fetchData(brand: selectedBrand, category: selectedCategory, option: selectedOption)
+    }
+    
+    /// JSON 파일에서 상품 데이터를 불러와 ViewModel에 저장합니다.
+    /// 데이터가 성공적으로 로드되면 `product` 프로퍼티에 저장되고,
+    /// 선택된 조건에 따라 필터링된 상품 목록을 사용할 수 있게 됩니다.
+    ///
+    /// - Parameter completion: 로딩 결과를 알리는 완료 핸들러 (성공: `.success`, 실패: `.failure`)
+    func fetchProductData(completion: ((Result<Void, Error>) -> Void)? = nil) {
+        let service = DataService()
+        service.fetchData { [weak self] result in
+            switch result {
+            case .success(let product):
+                self?.product = product
+                completion?(.success(()))
+            case .failure(let error):
+                completion?(.failure(error))
+            }
+        }
+    }
+    
     // MARK: - 주문 관리 메소드
     
     /// 음료를 주문 목록에 추가합니다.
