@@ -32,6 +32,14 @@ final class OrderViewModel {
         }
     }
     
+    /// 현재 선택된 옵션 (기본값: .hot)
+    private(set) var selectedOption: Option = .hot {
+        didSet {
+            OptionChanged?(selectedOption)
+        }
+    }
+    
+    
     // MARK: - 클로저
     
     /// 주문 목록이 변경될 때 호출되는 클로저
@@ -42,6 +50,9 @@ final class OrderViewModel {
     
     /// 브랜드가 변경될 때 호출되는 클로저
     var brandChanged: ((Brand) -> Void)?
+    
+    /// 옵션이 변경될 때 호출되는 클로저
+    var OptionChanged: ((Option) -> Void)?
     
     // MARK: - 주문 관리 메소드
     
