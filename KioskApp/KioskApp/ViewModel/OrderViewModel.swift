@@ -34,4 +34,20 @@ final class OrderViewModel {
     var categoryChanged: ((Category) -> Void)?
     var brandChanged: ((Brand) -> Void)?
     
+    // MARK: - 주문 관리 메소드
+    
+    func addOrder(_ beverage: Beverage) {
+        if let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) {
+            orderList[index].increaseCount()
+        } else {
+            let newItem = OrderItem(name: beverage.name,
+                                    price: beverage.price,
+                                    brand: beverage.brand,
+                                    count: 1)
+            orderList.append(newItem)
+        }
+    }
+    
+    
+    
 }
