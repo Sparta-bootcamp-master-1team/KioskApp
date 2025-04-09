@@ -8,14 +8,20 @@
 import UIKit
 import SnapKit
 
+protocol CoffeeButtonViewDelegate: AnyObject {
+    func brandButtonDidTap(brand: Brand)
+}
+
 class CoffeeBrandButtonView: UIView {
+    
+    weak var delegate: CoffeeButtonViewDelegate?
     
     // MARK: coffeeBrandButton 설정
     
     // 커피 브랜드 로고 버튼
     private let coffeeBrandButton: UIButton = {
-        let originalImage = UIImage(named: "megaLogo")
-        let resizedImage = originalImage?.resized(to: CGSize(width: 180, height: 90))
+        let originalImage = UIImage(named: "MegaLogo")
+        let resizedImage = originalImage?.resized(to: CGSize(width: 180, height: 60))
         
         // UIButton Configuration 사용
         var configuration = UIButton.Configuration.plain()
@@ -53,7 +59,8 @@ class CoffeeBrandButtonView: UIView {
         self.addSubview(coffeeBrandButton)
         
         coffeeBrandButton.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
     }
     
@@ -62,14 +69,28 @@ class CoffeeBrandButtonView: UIView {
     // "메가커피", "빽다방", "더벤티" 선택하는 UIMenu
     private func coffeeBrandMenu() {
         let coffeeBrandItems = [
-            UIAction(title: "메가커피", handler: { _ in print("메가커피")}),
-            UIAction(title: "빽다방", handler: { _ in print("빽다방")}),
-            UIAction(title: "더벤티", handler: { _ in print("더벤티")})
+            UIAction(title: "메가커피", handler: { _ in self.coffeeBrandChanged(brandName: "Mega")}),
+            UIAction(title: "빽다방", handler: { _ in self.coffeeBrandChanged(brandName: "paik")}),
+            UIAction(title: "더벤티", handler: { _ in self.coffeeBrandChanged(brandName: "TheVenti")})
         ]
         
         let menu = UIMenu(title: "커피 브랜드를 선택해주세요.", children: coffeeBrandItems)
         // coffeeBrandButton에 메뉴 연결
         coffeeBrandButton.menu = menu
+    }
+    
+    private func coffeeBrandChanged(brandName: String) {
+        guard let brand = Brand(rawValue: brandName) else { return }
+        delegate?.brandButtonDidTap(brand: brand)
+    }
+    
+    func coffeeBrandImageChange(imageName: String) {
+        let image = UIImage(named: imageName)
+        let resizedImage = image?.resized(to: CGSize(width: 180, height: 60))
+
+        var config = coffeeBrandButton.configuration
+        config?.image = resizedImage
+        coffeeBrandButton.configuration = config
     }
 }
 

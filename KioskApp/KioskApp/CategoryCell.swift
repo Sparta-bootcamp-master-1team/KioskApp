@@ -17,8 +17,8 @@ class CategoryCell: UICollectionViewCell {
     // 셀의 titleLabel
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.2353164852, green: 0.1198656633, blue: 0.06329972297, alpha: 1)
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .center
         return label
     }()
@@ -42,7 +42,7 @@ class CategoryCell: UICollectionViewCell {
         }
         
         contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 20
+        contentView.layer.cornerRadius = 18
         contentView.clipsToBounds = true
     }
     
@@ -63,7 +63,7 @@ class CategoryCell: UICollectionViewCell {
                 titleLabel.textColor = .white
             } else {
                 contentView.backgroundColor = .white
-                titleLabel.textColor = #colorLiteral(red: 0.2353164852, green: 0.1198656633, blue: 0.06329972297, alpha: 1)
+                titleLabel.textColor = .black
             }
         }
     }

@@ -189,9 +189,9 @@ class OrderItemCell: UITableViewCell {
     // MARK: - Public Methods
     /// 주문 항목(OrderItem)을 받아 UI 요소에 값을 설정합니다.
     func configure(with order: OrderItem) {
-        titleLabel.text = "(\(order.coffee.brand)) \(order.coffee.name)"
-        quantityLabel.text = "\(order.quantity)"
-        priceLabel.text = "\(order.coffee.price * order.quantity)원"
+        titleLabel.text = "(\(order.brand)) \(order.name)"
+        quantityLabel.text = "\(order.count)"
+        priceLabel.text = "\(order.price * order.count)원"
     }
 
     

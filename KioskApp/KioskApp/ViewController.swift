@@ -1,167 +1,162 @@
 import UIKit
 import SnapKit
 
-// 이미지 사이즈 조절을 위한 확장. UIImage
-extension UIImage {
-    func resize(targetSize: CGSize) -> UIImage? {
-        let rect = CGRect(origin: .zero, size: targetSize)
-        UIGraphicsBeginImageContextWithOptions(targetSize, false, 0.0)
-        self.draw(in: rect)
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return resizedImage
-    }
-}
-
-class ViewController: UIViewController, UICollectionViewDelegate {
-    // 메뉴 카테고리를 위한 UICollectionView 생성
-    lazy var categoryCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 10
-        
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.showsHorizontalScrollIndicator = false
-        view.backgroundColor = .clear
-        view.delegate = self
-        view.dataSource = self
-        view.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
-        return view
-    }()
+class ViewController: UIViewController {
+   
+    private let viewModel = OrderViewModel()
     
-    // 메뉴 카테고리 배열
-    private let categories = ["추천메뉴", "커피(ICED)", "커피(HOT)", "음료(ICED)", "음료(HOT)", "디저트"]
+    private let coffeeBrandButtonView = CoffeeBrandButtonView()
+    private let coffeeCategoryView = CoffeeCategoryCollectionView()
     
-    private let coffeeBrandButton: UIButton = {
-        let button = UIButton()
-        let targetSize = CGSize(width: 200, height: 100)
-        let resizedImage = UIImage(named: "megaLogo")?.resize(targetSize: targetSize)
-        
-        button.setImage(resizedImage, for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.showsMenuAsPrimaryAction = true // 버튼 누르면 Menu 바로 표시
-        return button
-    }()
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
+    private let productGirdView = ProductGridView()
+    private let orderListView = OrderListView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        self.view.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.8235294118, blue: 0.2, alpha: 1)
+        setupAddSubView()
         setupUI()
-        coffeeBrandMenu()
+        setupDelegate()
+        bindViewModel()
+        viewModel.fetchTestModel()
+    }
+    
+    private func setupAddSubView() {
+        [coffeeBrandButtonView, coffeeCategoryView, scrollView]
+            .forEach { self.view.addSubview($0) }
+        
+        scrollView.addSubview(contentView)
+        
+        [productGirdView, orderListView]
+            .forEach { self.contentView.addSubview($0) }
     }
     
     private func setupUI() {
-        view.addSubview(coffeeBrandButton)
-        
-        coffeeBrandButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(20)
-            $0.width.equalTo(200)
-            $0.height.equalTo(100)
-        }
-        
-        view.addSubview(categoryCollectionView)
-        
-        categoryCollectionView.snp.makeConstraints {
-            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(20)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-20)
-            $0.top.equalTo(coffeeBrandButton.snp.bottom)
+        coffeeBrandButtonView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
-    }
-    
-    // "메가커피", "빽다방", "더벤티" 선택하는 UIMenu
-    private func coffeeBrandMenu() {
-        let coffeeBrandItems = [
-            UIAction(title: "메가커피", handler: { _ in print("메가커피")}),
-            UIAction(title: "빽다방", handler: { _ in print("빽다방")}),
-            UIAction(title: "더벤티", handler: { _ in print("더벤티")})
-        ]
         
-        let menu = UIMenu(title: "커피 브랜드를 선택해주세요.", children: coffeeBrandItems)
-        // coffeeBrandButton에 메뉴 연결
-        coffeeBrandButton.menu = menu
-    }
-
-}
-
-extension ViewController: UICollectionViewDataSource,
-                        UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return categories.count // 카테고리 개수 반환
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell =
-                collectionView.dequeueReusableCell(
-                    withReuseIdentifier: CategoryCell.identifier,
-                    for: indexPath
-                ) as? CategoryCell
-        else {
-            return UICollectionViewCell()
+        coffeeCategoryView.snp.makeConstraints {
+            $0.top.equalTo(coffeeBrandButtonView.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(40)
         }
         
-        cell.configure(title: categories[indexPath.item]) // 셀에 데이터 전달
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(coffeeCategoryView.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.verticalEdges.equalTo(scrollView.contentLayoutGuide)
+            $0.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+        }
+        
+        productGirdView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(productGirdView.snp.width).multipliedBy(1.4)
+        }
+        
+        orderListView.snp.makeConstraints {
+            $0.top.equalTo(productGirdView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
+    private func setupDelegate() {
+        coffeeBrandButtonView.delegate = self
+        coffeeCategoryView.delegate = self
+        productGirdView.collectionView.delegate = self
+        orderListView.orderListTableView.tableView.dataSource = self
+    }
+    
+    private func bindViewModel() {
+        viewModel.brandChanged = { [weak self] brand in
+            switch brand {
+            case .mega:
+                self?.view.backgroundColor = #colorLiteral(red: 0.9614067674, green: 0.8476976752, blue: 0.2546326518, alpha: 1)
+            case .paik:
+                self?.view.backgroundColor = #colorLiteral(red: 0.1450980392, green: 0.2470588235, blue: 0.5215686275, alpha: 1)
+            case .theVenti:
+                self?.view.backgroundColor = #colorLiteral(red: 0.168627451, green: 0, blue: 0.2235294118, alpha: 1)
+            }
+            
+            self?.coffeeBrandImageChange(brand: brand)
+        }
+        
+        viewModel.categoryChanged = { [weak self] in
+            self?.configureUI()
+        }
+    }
+    
+    private func coffeeBrandImageChange(brand: Brand) {
+        let imageName = "\(viewModel.selectedBrand.rawValue)" + "Logo"
+        coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
+    }
+    
+    private func categoryChanged(index: Int) {
+        
+    }
+    
+    private func configureUI() {
+        guard let beverage = viewModel.beverage else { return }
+        productGirdView.configure(items: beverage)
+    }
+    
+}
+
+extension ViewController: CoffeeButtonViewDelegate {
+    func brandButtonDidTap(brand: Brand) {
+        viewModel.changeBrand(brand)
+    }
+}
+
+extension ViewController: CoffeeCategoryCollectionViewDelegate {
+    func categoryButtonDidTap(index: Int) {
+        switch index {
+        case 1:
+            viewModel.changeCategory(.coffee)
+            viewModel.changeOption(.ice)
+        case 2:
+            viewModel.changeCategory(.coffee)
+            viewModel.changeOption(.hot)
+        case 3:
+            viewModel.changeCategory(.beverage)
+            viewModel.changeOption(.ice)
+        case 4:
+            viewModel.changeCategory(.beverage)
+            viewModel.changeOption(.hot)
+        default:
+            viewModel.changeCategory(.dessert)
+            viewModel.changeOption(nil)
+        }
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = productGirdView.datasource.itemIdentifier(for: indexPath) else { return }
+        viewModel.addOrder(item)
+        orderListView.reloadTable()
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.orderList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemCell
+        cell.configure(with: viewModel.orderList[indexPath.row])
         return cell
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        print("\(categories[indexPath.item]) 선택됨") // 실행되는지 테스트
-    }
-    
-    // 셀 크기 설정
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: 100, height: 40) // 각 셀의 크기 설정
-    }
-}
-
-// CategoryCell
-class CategoryCell: UICollectionViewCell {
-    static let identifier = "CategoryCell"
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.textAlignment = .center
-        return label
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupUI() {
-        contentView.addSubview(titleLabel)
-        
-        titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 20
-        contentView.clipsToBounds = true
-    }
-    
-    func configure(title: String) {
-        titleLabel.text = title
     }
 }
