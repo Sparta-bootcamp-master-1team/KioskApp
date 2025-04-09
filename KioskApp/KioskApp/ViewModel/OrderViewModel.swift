@@ -26,7 +26,7 @@ final class OrderViewModel {
     /// 현재 선택된 카테고리 (기본값: .coffee)
     private(set) var selectedCategory: Category = .coffee {
         didSet {
-            categoryChanged?(selectedCategory)
+            categoryChanged?()
         }
     }
     
