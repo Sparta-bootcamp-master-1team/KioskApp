@@ -5,336 +5,336 @@
             "price": 3000,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "소세지빵",
             "price": 3500,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "소프트아이스크림",
             "price": 2000,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "쫀득감자빵",
             "price": 2800,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "쫀득고구마빵",
             "price": 2800,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "크리미단팥빵",
             "price": 2000,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "크리미슈",
             "price": 2000,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "햄치즈샌드위치",
             "price": 3300,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "고메버터소금빵",
             "price": 2500,
             "category": "Dessert",
             "option": null,
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "딸기라떼",
             "price": 3800,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "미숫가루",
             "price": 2700,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "뱅쇼",
             "price": 3800,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "아망추(아이스티+망고추가)",
             "price": 3800,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "초코라떼",
             "price": 3500,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "원조빽스치노(SOFT)",
             "price": 3800,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "청포도에이드",
             "price": 4000,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "쿠키크런치빽스치노(BASIC)",
             "price": 3800,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "퐁당치노(바닐라)",
             "price": 3800,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "플레인요거트스무디",
             "price": 3500,
             "category": "Beverage",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "황금캐모마일티",
             "price": 2500,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "토피넛라떼",
             "price": 3500,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "자몽티",
             "price": 3500,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "유자티",
             "price": 3500,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "쌍화차",
             "price": 3000,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "뱅쇼",
             "price": 3800,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "바나나라떼",
             "price": 4000,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "민트초코라떼",
             "price": 3500,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "레몬티",
             "price": 3500,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "깔라만시티",
             "price": 3000,
             "category": "Beverage",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "달달연유라떼",
             "price": 3700,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "더블에스프레소",
             "price": 1500,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "바나나카페라떼",
             "price": 4000,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "바닐라라떼",
             "price": 3700,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "빽s라떼",
             "price": 3000,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "앗메리카노",
             "price": 2000,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "원조커피",
             "price": 2500,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "카라멜마키아또",
             "price": 3500,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "카페모카",
             "price": 3500,
             "category": "Coffee",
             "option": "ICE",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "바닐라라떼",
             "price": 3700,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "블랙펄카페라떼",
             "price": 4500,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "빽s라떼",
             "price": 3000,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "아샷추(달콤아이스티+샷추가)",
             "price": 3000,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "아이스크림바닐라라떼",
             "price": 4400,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "아이스크림카페라떼",
             "price": 3700,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "앗메리카노",
             "price": 1500,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "원조커피",
             "price": 2500,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "카라멜마키아또",
             "price": 3500,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "카페모카",
             "price": 3500,
             "category": "Coffee",
             "option": "HOT",
-            "brand": "Baik"
+            "brand": "Paik"
         },
         {
             "name": "군고구마라떼",
