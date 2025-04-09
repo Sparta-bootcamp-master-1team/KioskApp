@@ -136,6 +136,12 @@ final class OrderViewModel {
     ///
     /// - Parameter brand: 변경할 브랜드
     func changeBrand(_ brand: Brand) {
+        
         selectedBrand = brand
+        selectedCategory = .coffee
+        selectedOption = .hot
+        
+        /// 회의 필요
+        // categoryChanged?(beverage ?? [])
     }
 }
