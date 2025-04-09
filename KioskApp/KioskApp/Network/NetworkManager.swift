@@ -37,12 +37,10 @@ final class NetworkManager {
             throw(NetworkError.serverError(code: code))
         }
         
-        do {
-            let decoder = JSONDecoder()
-            let res: T = try decoder.decode(T.self, from: response.0)
-            return res
-        } catch {
+        guard let response = try? JSONDecoder().decode(T.self, from: response.0) else {
             throw(NetworkError.decodingError)
         }
+        
+        return response
     }
 }
