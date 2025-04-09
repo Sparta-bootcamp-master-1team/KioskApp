@@ -52,7 +52,7 @@ final class OrderViewModel {
         guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
         orderList[index].increaseCount()
     }
-
+    
     func orderCountDecreament(_ beverage: Beverage) {
         guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
         if orderList[index].count > 1 {
@@ -60,6 +60,16 @@ final class OrderViewModel {
         } else {
             orderList.remove(at: index)
         }
+    }
+    
+    // MARK: - 필터 변경
+    
+    func changeCategory(_ category: Category) {
+        selectedCategory = category
+    }
+    
+    func changeBrand(_ brand: Brand) {
+        selectedBrand = brand
     }
     
 }
