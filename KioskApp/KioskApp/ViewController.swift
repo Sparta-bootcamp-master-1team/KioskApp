@@ -3,7 +3,7 @@ import SnapKit
 
 class ViewController: UIViewController {
    
-    private var testModel: [Beverage] = []
+    private let viewModel = OrderViewModel()
     
     private let coffeeBrandButtonView = CoffeeBrandButtonView()
     private let coffeeCategoryView = CoffeeCategoryCollectionView()
@@ -16,14 +16,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .yellow
-        
-        setAddSubView()
+        self.view.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.8235294118, blue: 0.2, alpha: 1)
+        setupAddSubView()
         setupUI()
-        fetchTestModel()
+        setupDelegate()
+        bindViewModel()
+        viewModel.fetchTestModel()
     }
     
-    private func setAddSubView() {
+    private func setupAddSubView() {
         [coffeeBrandButtonView, coffeeCategoryView, scrollView]
             .forEach { self.view.addSubview($0) }
         
@@ -71,24 +72,40 @@ class ViewController: UIViewController {
     }
     
     private func setupDelegate() {
+        coffeeBrandButtonView.delegate = self
         productGirdView.collectionView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
     }
     
-    private func fetchTestModel() {
-        DataService.fetchData { result in
-            switch result {
-            case .success(let data):
-                self.testModel = data.baiksProduct
-                self.configureUI()
-            case .failure(let error):
-                print(error.localizedDescription)
+    private func bindViewModel() {
+        viewModel.brandChanged = { [weak self] brand in
+            switch brand {
+            case .mega:
+                self?.view.backgroundColor = #colorLiteral(red: 0.9614067674, green: 0.8476976752, blue: 0.2546326518, alpha: 1)
+            case .paik:
+                self?.view.backgroundColor = #colorLiteral(red: 0.1450980392, green: 0.2470588235, blue: 0.5215686275, alpha: 1)
+            case .theVenti:
+                self?.view.backgroundColor = #colorLiteral(red: 0.168627451, green: 0, blue: 0.2235294118, alpha: 1)
             }
+            
+            self?.coffeeBrandImageChange(brand: brand)
+        }
+        
+        viewModel.categoryChanged = { [weak self] in
+            self?.configureUI()
         }
     }
     
+    private func coffeeBrandImageChange(brand: Brand) {
+        let imageName = "\(viewModel.selectedBrand.rawValue)" + "Logo"
+        coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
+    }
+    
     private func configureUI() {
-        productGirdView.configure(items: testModel)
+        guard let beverage = viewModel.beverage else { return }
+        productGirdView.configure(items: beverage)
+    }
+    
 }
 
 extension ViewController: CoffeeButtonViewDelegate {
