@@ -93,3 +93,13 @@ struct OrderItem {
     }
     
 }
+
+struct NetworkResponse: Decodable {
+    let name: String
+    let downloadURL: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case downloadURL = "download_url"
+    }
+}
