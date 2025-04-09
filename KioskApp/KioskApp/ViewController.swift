@@ -38,13 +38,13 @@ class ViewController: UIViewController {
         coffeeBrandButtonView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(80)
+            $0.height.equalTo(50)
         }
         
         coffeeCategoryView.snp.makeConstraints {
-            $0.top.equalTo(coffeeBrandButtonView.snp.bottom)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
+            $0.top.equalTo(coffeeBrandButtonView.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(40)
         }
         
         scrollView.snp.makeConstraints {

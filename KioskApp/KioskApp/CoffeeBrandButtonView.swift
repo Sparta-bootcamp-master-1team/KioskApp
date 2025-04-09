@@ -21,7 +21,7 @@ class CoffeeBrandButtonView: UIView {
     // 커피 브랜드 로고 버튼
     private let coffeeBrandButton: UIButton = {
         let originalImage = UIImage(named: "MegaLogo")
-        let resizedImage = originalImage?.resized(to: CGSize(width: 180, height: 90))
+        let resizedImage = originalImage?.resized(to: CGSize(width: 180, height: 60))
         
         // UIButton Configuration 사용
         var configuration = UIButton.Configuration.plain()
@@ -86,7 +86,7 @@ class CoffeeBrandButtonView: UIView {
     
     func coffeeBrandImageChange(imageName: String) {
         let image = UIImage(named: imageName)
-        let resizedImage = image?.resized(to: CGSize(width: 180, height: 90))
+        let resizedImage = image?.resized(to: CGSize(width: 180, height: 60))
 
         var config = coffeeBrandButton.configuration
         config?.image = resizedImage
