@@ -9,7 +9,7 @@ enum Category: String, Decodable {
 
 /// 3사 브랜드 (Baik, TheVenti, Mega)
 enum Brand: String, Decodable {
-    case baik = "Baik"
+    case paik = "Paik"
     case theVenti = "TheVenti"
     case mega = "Mega"
 }
@@ -26,7 +26,7 @@ struct Product: Decodable {
     
     var baiksProduct: [Beverage] {
         return beverage.filter {
-            $0.brand == .baik
+            $0.brand == .paik
         }
     }
     
@@ -67,7 +67,7 @@ struct Beverage: Decodable {
     let brand: Brand
     var recommended: Bool?
     var imageName: String {
-        return "\(category)" + "\(option == nil ? "-" : "\(option!)-")" + "\(name)" + "-\(brand)"
+        return "\(category.rawValue)" + "\(option == nil ? "-" : "\(option?.rawValue!)-")" + "\(name)" + "-\(brand.rawValue)"
     }
 }
 
@@ -92,4 +92,14 @@ struct OrderItem {
         self.count -= 1
     }
     
+}
+
+struct NetworkResponse: Decodable {
+    let name: String
+    let downloadURL: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case downloadURL = "download_url"
+    }
 }
