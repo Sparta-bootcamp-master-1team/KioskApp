@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         setupUI()
         setupDelegate()
         bindViewModel()
-        viewModel.fetchTestModel()
+        viewModel.fetchProducts()
     }
     
     private func setupAddSubView() {
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
     }
     
     private func coffeeBrandImageChange(brand: Brand) {
-        let imageName = "\(viewModel.selectedBrand.rawValue)" + "Logo"
+        let imageName = "\(brand.rawValue)" + "Logo"
         coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
     }
     

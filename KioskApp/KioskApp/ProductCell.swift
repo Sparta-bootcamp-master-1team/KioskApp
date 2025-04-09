@@ -70,7 +70,7 @@ class ProductCell: UICollectionViewCell {
     // 셀 외곽에 그림자 효과
     private func applyShadow() {
         self.layer.shadowColor = UIColor.black.cgColor // 그림자 색상
-        self.layer.shadowOpacity = 0.1                 // 그림자 투명도 (연하게)
+        self.layer.shadowOpacity = 0.12                 // 그림자 투명도 (연하게)
         self.layer.shadowRadius = 10                   // 그림자 퍼짐 정도
         self.layer.shadowOffset = CGSize(width: 0, height: 6) // 아래 방향으로 그림자
     }

@@ -70,7 +70,7 @@ class CoffeeBrandButtonView: UIView {
     private func coffeeBrandMenu() {
         let coffeeBrandItems = [
             UIAction(title: "메가커피", handler: { _ in self.coffeeBrandChanged(brandName: "Mega")}),
-            UIAction(title: "빽다방", handler: { _ in self.coffeeBrandChanged(brandName: "paik")}),
+            UIAction(title: "빽다방", handler: { _ in self.coffeeBrandChanged(brandName: "Paik")}),
             UIAction(title: "더벤티", handler: { _ in self.coffeeBrandChanged(brandName: "TheVenti")})
         ]
         

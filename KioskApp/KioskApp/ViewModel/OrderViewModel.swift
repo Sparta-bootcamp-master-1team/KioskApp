@@ -23,13 +23,6 @@ final class OrderViewModel {
     
     // MARK: - 상태
     
-    /// 현재 선택된 카테고리 (기본값: .coffee)
-    private(set) var selectedCategory: Category = .coffee {
-        didSet {
-            categoryChanged?()
-        }
-    }
-    
     /// 현재 선택된 브랜드 (기본값: .mega)
     private(set) var selectedBrand: Brand = .mega {
         didSet {
@@ -37,10 +30,10 @@ final class OrderViewModel {
         }
     }
     
-    /// 현재 주문한 상품 리스트
-    private(set) var orderList: [OrderItem] = [] {
+    /// 현재 선택된 카테고리 (기본값: .coffee)
+    private(set) var selectedCategory: Category = .coffee {
         didSet {
-            orderProductsChanged?(orderList)
+            categoryChanged?()
         }
     }
     
@@ -48,6 +41,13 @@ final class OrderViewModel {
     private(set) var selectedOption: Option? = .ice {
         didSet {
             categoryChanged?()
+        }
+    }
+    
+    /// 현재 주문한 상품 리스트
+    private(set) var orderList: [OrderItem] = [] {
+        didSet {
+            orderProductsChanged?(orderList)
         }
     }
     
@@ -68,18 +68,20 @@ final class OrderViewModel {
     /// 선택된 조건에 따라 필터링된 상품 목록을 사용할 수 있게 됩니다.
     ///
     /// - Parameter completion: 로딩 결과를 알리는 완료 핸들러 (성공: `.success`, 실패: `.failure`)
-    func fetchProductData(completion: ((Result<Void, Error>) -> Void)? = nil) {
-        let service = DataService()
-        service.fetchData { [weak self] result in
+    
+    
+    func fetchProducts() {
+        DataService.fetchData { result in
             switch result {
             case .success(let product):
-                self?.product = product
-                completion?(.success(()))
+                self.product = product
+                self.categoryChanged?()
             case .failure(let error):
-                completion?(.failure(error))
+                print(error.localizedDescription)
             }
         }
     }
+    
     
     // MARK: - 주문 관리 메소드
     
@@ -136,7 +138,6 @@ final class OrderViewModel {
     /// 현재 선택된 브랜드를 변경합니다.
     /// - Parameter brand: 변경할 브랜드
     func changeBrand(_ brand: Brand) {
-        
         selectedBrand = brand
         selectedCategory = .coffee
         selectedOption = .hot
