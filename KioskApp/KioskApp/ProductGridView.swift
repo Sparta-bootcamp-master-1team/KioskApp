@@ -30,7 +30,7 @@ class ProductGridView: UIView {
     // MARK: - DiffableDatasource 정의
     
     enum Section { case main }
-    typealias Item = TestModel
+    typealias Item = Beverage
     var datasource: UICollectionViewDiffableDataSource<Section, Item>!
     
     // MARK: - 초기화
@@ -130,7 +130,7 @@ class ProductGridView: UIView {
     
     // MARK: - Snapshot 구성
     
-    private func configureSnapshot(items: [TestModel]) {
+    private func configureSnapshot(items: [Beverage]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])       // 섹션 추가
         snapshot.appendItems(items, toSection: .main) // 아이템 추가
@@ -147,7 +147,7 @@ class ProductGridView: UIView {
     // MARK: - 외부 구성 메서드
     
     // 외부에서 모델 배열을 넘겨받아 셀과 페이지 컨트롤 구성
-    func configure(items: [TestModel]) {
+    func configure(items: [Beverage]) {
         configureSnapshot(items: items)
         configurePageControl(count: items.count)
     }
