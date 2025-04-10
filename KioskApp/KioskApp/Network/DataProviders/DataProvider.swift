@@ -86,13 +86,16 @@ final class DataProvider {
 //    3. 불러온 이미지 캐시 저장
 //    4. Beverage의 ImageName에 이미지 URL 저장
 //    탈출 클로저로 준비된 데이터를 전달
-    func process(completion: @escaping ([Beverage]) -> Void) {
-        Task {
-            var beverages = configureBeverage()
-            let response = try await configureNetworkResponse()
-            try await configureCache(response: response)
-            assignImageURL(from: response, to: &beverages)
-            completion(beverages)
+    func process(/*completion: @escaping ([Beverage]) -> Void*/) async throws-> [Beverage] {
+        var beverages = configureBeverage()
+        guard let response = try? await configureNetworkResponse() else {
+            throw(NetworkError.transportError)
         }
+        
+        guard let _ = try? await configureCache(response: response) else {
+            throw(NetworkError.transportError)
+        }
+        assignImageURL(from: response, to: &beverages)
+        return beverages
     }
 }
