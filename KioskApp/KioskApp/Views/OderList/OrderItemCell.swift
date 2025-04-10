@@ -83,6 +83,7 @@ class OrderItemCell: UITableViewCell {
         
         // 오른쪽: 가격 + 삭제
         rightStack.axis = .horizontal
+        rightStack.spacing = 4
         rightStack.alignment = .center
         rightStack.addArrangedSubview(priceLabel)
         
@@ -118,10 +119,10 @@ class OrderItemCell: UITableViewCell {
             make.width.equalTo(hStackView).multipliedBy(0.5)
         }
         centerStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.25)
+            make.width.equalTo(hStackView).multipliedBy(0.2)
         }
         rightStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.25)
+            make.width.equalTo(hStackView).multipliedBy(0.3)
         }
     }
     
@@ -160,9 +161,11 @@ class OrderItemCell: UITableViewCell {
         
         
         // 의논 필요
-        let trashImage = UIImage(systemName: "trash")
+        let trashImage = UIImage(systemName: "xmark.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12))
         removeButton.setImage(trashImage, for: .normal)
         removeButton.tintColor = .gray
+        
+        
     }
     
     /// 버튼 클릭 시 실행될 메서드를 연결합니다.
@@ -196,12 +199,12 @@ class OrderItemCell: UITableViewCell {
         self.orderItem = order
         if order.category != .dessert {
             let categorySuffix = String(order.category.rawValue.suffix(3))
-            titleLabel.text = "[ \(order.brand.displayName) ] \(order.name) \(categorySuffix)"
+            titleLabel.text = "【 \(order.brand.displayName) 】\n\(order.name) \(categorySuffix)"
         } else {
-            titleLabel.text = "[ \(order.brand.displayName) ] \(order.name)"
+            titleLabel.text = "【 \(order.brand.displayName) 】\n\(order.name)"
         }
         quantityLabel.text = "\(order.count)"
-        priceLabel.text = "\(order.price * order.count)원"
+        priceLabel.text = "\((order.price * order.count).formattedWithSeparator)원"
     }
 
     

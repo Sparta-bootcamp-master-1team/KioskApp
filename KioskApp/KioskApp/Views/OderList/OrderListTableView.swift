@@ -72,6 +72,9 @@ class OrderListTableView: UIView {
         // 테이블 뷰에서 스크롤을 비활성화합니다.
         // 셀 개수에 따라 테이블 높이를 늘리고 싶을 때 사용합니다.
         tableView.isScrollEnabled = false
+        
+        // 테이블 뷰에서 터치를 비활성화 합니다.
+        tableView.allowsSelection = false
 
         // OrderItemCell 클래스를 셀로 등록합니다.
         // 셀 재사용을 위해 identifier를 "OrderItemCell"로 지정합니다.
