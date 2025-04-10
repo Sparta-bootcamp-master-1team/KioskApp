@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.8235294118, blue: 0.2, alpha: 1)
         setupAddSubView()
         setupUI()
-        setupDelegate()
+        configureSubViews()
         bindViewModel()
         viewModel.fetchProducts()
     }
@@ -71,10 +71,12 @@ class ViewController: UIViewController {
         }
     }
     
-    private func setupDelegate() {
+    private func configureSubViews() {
         coffeeBrandButtonView.delegate = self
         coffeeCategoryView.delegate = self
         productGirdView.delegate = self
+        orderListView.dataSource = self
+        orderListView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
     }
     
@@ -151,14 +153,45 @@ extension ViewController: productGridViewDelegate {
     }
 }
 
+extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
+    var orderList: [OrderItem] {
+        viewModel.orderList
+    }
+    
+    func orderListViewCancelButtonDidTap() {
+        viewModel.orderCacelAll()
+    }
+    
+    func orderListViewOrderButtonDidTap() {
+        print("dfasfs")
+    }
+}
+
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.orderList.count
+        return viewModel.orderList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemCell
         cell.configure(with: viewModel.orderList[indexPath.row])
+        cell.delegate = self
         return cell
+    }
+}
+
+extension ViewController: OrderItemCellDelegate {
+    func orderItemCellDidTapIncrement(_ cell: OrderItemCell) {
+        guard let orderItem = cell.orderItem else { return }
+        viewModel.orderCountIncreament(orderItem)
+    }
+    
+    func orderItemCellDidTapDecrement(_ cell: OrderItemCell) {
+        guard let orderItem = cell.orderItem else { return }
+        viewModel.orderCountDecreament(orderItem)
+    }
+    
+    func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
+        print(1)
     }
 }

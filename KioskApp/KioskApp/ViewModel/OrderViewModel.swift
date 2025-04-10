@@ -47,14 +47,14 @@ final class OrderViewModel {
     /// 현재 주문한 상품 리스트
     private(set) var orderList: [OrderItem] = [] {
         didSet {
-            orderProductsChanged?(orderList)
+            orderProductsChanged?()
         }
     }
     
     // MARK: - 클로저
     
     /// 주문 목록이 변경될 때 호출되는 클로저
-    var orderProductsChanged: (([OrderItem]) -> Void)?
+    var orderProductsChanged: (() -> Void)?
     
     /// 카테고리가 변경될 때 호출되는 클로저
     var categoryChanged: (() -> Void)?
@@ -104,22 +104,28 @@ final class OrderViewModel {
     /// 주문 항목의 수량을 1 증가시킵니다.
     ///
     /// - Parameter beverage: 수량을 증가시킬 음료
-    func orderCountIncreament(_ beverage: Beverage) {
+    func orderCountIncreament(_ beverage: OrderItem) {
         guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
         orderList[index].increaseCount()
+        orderProductsChanged?()
     }
     
     /// 주문 항목의 수량을 1 감소시킵니다.
     /// 수량이 1일 경우 해당 항목을 삭제합니다.
     ///
     /// - Parameter beverage: 수량을 감소시킬 음료
-    func orderCountDecreament(_ beverage: Beverage) {
+    func orderCountDecreament(_ beverage: OrderItem) {
         guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
         if orderList[index].count > 1 {
             orderList[index].decreaseCount()
         } else {
             orderList.remove(at: index)
         }
+        orderProductsChanged?()
+    }
+    
+    func orderCacelAll() {
+        orderList.removeAll()
     }
     
     // MARK: - 필터 변경
