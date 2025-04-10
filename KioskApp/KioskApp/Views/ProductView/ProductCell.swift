@@ -106,10 +106,17 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - UI 데이터 설정
 
+    private func formatPrice(_ price: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: price)) ?? "\(price)"
+    }
+
+    
     func configureUI(imageName: String?, productName: String, price: Int) {
         guard let imageName else { return }
         imageView.image = ImageCacheManager.shared.image(from: imageName)
         productNameLabel.text = productName
-        priceLabel.text = "\(price)"
+        priceLabel.text = formatPrice(price) + "원"
     }
 }
