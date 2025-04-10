@@ -138,7 +138,8 @@ class ViewController: UIViewController {
     private func configureUI() {
         guard let beverage = viewModel.beverage else { return }
         productGirdView.configure(items: beverage)
-
+    }
+    
     private func coffeeBrandImageChange(for brand: Brand) {
         let imageName = "\(brand.rawValue)" + "Logo"
         coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)

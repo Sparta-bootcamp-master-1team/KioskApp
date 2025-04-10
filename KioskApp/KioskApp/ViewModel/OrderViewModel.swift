@@ -82,7 +82,6 @@ final class OrderViewModel {
                 let beverages = try await dataProvider.process()
                 await MainActor.run {
                     self.beverage = beverages
-                    self.categoryChanged?()
                     self.selectedRecommend()
                     dataFetchCompleted?()
                 }

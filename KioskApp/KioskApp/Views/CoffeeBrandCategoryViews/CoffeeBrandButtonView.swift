@@ -71,7 +71,7 @@ class CoffeeBrandButtonView: UIView {
         delegate?.brandButtonDidTap(brand: brand)
     }
     
-    private func coffeeBrandImageChange(imageName: String) {
+    func coffeeBrandImageChange(imageName: String) {
         let image = UIImage(named: imageName)
         let resizedImage = image?.resized(to: CGSize(width: 180, height: 60))
 
