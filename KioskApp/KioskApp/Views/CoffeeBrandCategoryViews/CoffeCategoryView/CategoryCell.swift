@@ -85,6 +85,7 @@ extension CategoryCell {
             contentView.backgroundColor = #colorLiteral(red: 0.6387647986, green: 0.683789432, blue: 0.7854922414, alpha: 1)
         case .theVenti:
             contentView.backgroundColor = #colorLiteral(red: 0.6821619868, green: 0.6132372022, blue: 0.7087652087, alpha: 1)
+
         }
     }
 }

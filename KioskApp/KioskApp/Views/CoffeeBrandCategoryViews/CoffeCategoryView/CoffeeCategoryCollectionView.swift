@@ -76,6 +76,7 @@ class CoffeeCategoryCollectionView: UIView {
             cell.isSelected = true
         }
     }
+
 }
 
 // MARK: - UICollectionView DataSource
@@ -104,6 +105,7 @@ extension CoffeeCategoryCollectionView: UICollectionViewDataSource {
         }
         
         cell.configureUI(title: categories[indexPath.item]) // 셀에 데이터 전달
+
         // 브랜드 변경에 따라 셀 배경색 변경 메서드 호출
         cell.updateBackgroundColor(brand: currentBrand)
         return cell
@@ -113,6 +115,7 @@ extension CoffeeCategoryCollectionView: UICollectionViewDataSource {
 // MARK: - UICollectionView DelegateFlowLayout
 
 extension CoffeeCategoryCollectionView: UICollectionViewDelegateFlowLayout {
+
     // 셀 크기 설정 함수
     func collectionView(
         _ collectionView: UICollectionView,
