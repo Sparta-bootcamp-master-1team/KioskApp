@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     private let productGirdView = ProductGridView()
     private let orderListView = OrderListView()
 
+    private let spinnerView = SpinnerView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.8235294118, blue: 0.2, alpha: 1)
@@ -78,6 +80,7 @@ class ViewController: UIViewController {
         orderListView.dataSource = self
         orderListView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
+        spinnerView.delegate = self
     }
     
     private func bindViewModel() {
@@ -94,6 +97,18 @@ class ViewController: UIViewController {
         viewModel.orderProductsChanged = { [weak self] in
             self?.orderListView.reloadTable()
         }
+        
+        viewModel.dataFetchStarted = { [weak self] in
+            self?.startSpinnerView()
+        }
+        
+        viewModel.dataFetchCompleted = { [weak self] in
+            self?.stopSinnerView()
+        }
+        
+        viewModel.dataFetchFailed = { [weak self] in
+            self?.spinnerView.presentFailureView()
+        }
     }
     
     private func updateBackgroundColor(for brand: Brand) {
@@ -107,6 +122,23 @@ class ViewController: UIViewController {
         }
     }
     
+    func startSpinnerView() {
+        view.addSubview(spinnerView)
+        spinnerView.startAnimating()
+        spinnerView.snp.makeConstraints { make in
+            make.verticalEdges.horizontalEdges.equalToSuperview()
+        }
+    }
+    
+    func stopSinnerView() {
+        spinnerView.stopAnimating()
+        spinnerView.removeFromSuperview()
+    }
+    
+    private func configureUI() {
+        guard let beverage = viewModel.beverage else { return }
+        productGirdView.configure(items: beverage)
+
     private func coffeeBrandImageChange(for brand: Brand) {
         let imageName = "\(brand.rawValue)" + "Logo"
         coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
@@ -206,5 +238,12 @@ extension ViewController: OrderItemCellDelegate {
     func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
         guard let orderItem = cell.orderItem else { return }
         viewModel.removeOrder(orderItem)
+    }
+}
+
+// MARK: - SpinnerView RetryButton Tap Delegate
+extension ViewController: SpinnerViewButtonDelegate {
+    func spinnerViewRetryButtonTapped() {
+        viewModel.fetchProducts()
     }
 }
