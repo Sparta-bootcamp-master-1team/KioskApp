@@ -178,7 +178,7 @@ extension ViewController: productGridViewDelegate {
     }
 }
 
-extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
+extension ViewController: OrderListViewDataSource {
     
     var orderList: [OrderItem] {
         viewModel.orderList
@@ -202,19 +202,56 @@ extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
             return #colorLiteral(red: 0.6823529412, green: 0.6117647059, blue: 0.7098039216, alpha: 1)
         }
     }
+}
+
+extension ViewController: OrderListViewDelegate {
     
     func orderListViewCancelButtonDidTap() {
+        guard !viewModel.orderList.isEmpty else { return }
+        
         let alert = UIAlertController(title: "주문 취소", message: "주문을 취소하시겠어요?", preferredStyle: .alert)
         
         let confirmAction = UIAlertAction(title: "예", style: .destructive) { _ in
             self.viewModel.orderCacelAll()
         }
         
-        let cancelAction = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel)
         
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)
         
+        self.present(alert, animated: true)
+    }
+    
+    func orderListViewOrderButtonDidTap() {
+        let orderList = viewModel.orderList
+        
+        guard !orderList.isEmpty else { return }
+
+        let grouped = Dictionary(grouping: orderList, by: { $0.brand })
+
+        var message = ""
+        var totalPrice = 0
+        for (brand, items) in grouped {
+            let brandName = brand.displayName
+            let count = items.reduce(0) { $0 + $1.count }
+            let price = items.reduce(0) { $0 + $1.price * $1.count }
+            totalPrice += price
+            message += "\(brandName) \(count)개 \(price.formattedWithSeparator)원\n"
+        }
+        message += "\n총 \(totalPrice.formattedWithSeparator)원\n\n담으신 상품이 맞는지 확인해주세요"
+
+        let alert = UIAlertController(title: "주문 확인", message: message, preferredStyle: .alert)
+
+        let confirmAction = UIAlertAction(title: "예", style: .default) { _ in
+            self.viewModel.orderCacelAll()
+        }
+
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel)
+
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+
         self.present(alert, animated: true)
     }
 }
