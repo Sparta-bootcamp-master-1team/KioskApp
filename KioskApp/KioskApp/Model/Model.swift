@@ -14,6 +14,14 @@ enum Brand: String, Decodable {
     case paik = "Paik"
     case theVenti = "TheVenti"
     case mega = "Mega"
+    
+    var displayName: String {
+        switch self {
+        case .mega: return "메가커피"
+        case .paik: return "빽다방"
+        case .theVenti: return "더벤티"
+        }
+    }
 }
 
 /// 제품 하나의 세부정보 리스트

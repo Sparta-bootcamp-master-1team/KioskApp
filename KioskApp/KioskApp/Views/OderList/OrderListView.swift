@@ -10,7 +10,8 @@ import SnapKit
 protocol OrderListViewDataSource: AnyObject {
     var orderList: [OrderItem] { get }
     var labelColor: UIColor { get }
-    var buttonColor: UIColor { get }
+    var buttonTitleColor: UIColor { get }
+    var buttonBackgroundColor: UIColor { get }
 }
 
 protocol OrderListViewDelegate: AnyObject {
@@ -182,7 +183,8 @@ class OrderListView: UIView {
     
     func changeColor() {
         titleLabel.textColor = dataSource?.labelColor
-        orderButton.setTitleColor(dataSource?.buttonColor, for: .normal)
+        orderButton.setTitleColor(dataSource?.buttonTitleColor, for: .normal)
+        orderButton.backgroundColor = dataSource?.buttonBackgroundColor
     }
 //
 //    /// OrderListTableView 내부에서 수량이 변경되었을 때 호출되는 델리게이트 메서드입니다.

@@ -146,11 +146,20 @@ extension ViewController: productGridViewDelegate {
 }
 
 extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
+    
+    var orderList: [OrderItem] {
+        viewModel.orderList
+    }
+    
     var labelColor: UIColor {
+        viewModel.selectedBrand == .mega ? .black : .white
+    }
+    
+    var buttonTitleColor: UIColor {
         viewModel.selectedBrand == .mega ? .white : .black
     }
     
-    var buttonColor: UIColor {
+    var buttonBackgroundColor: UIColor {
         switch viewModel.selectedBrand {
         case .mega:
             return #colorLiteral(red: 0.3039717376, green: 0.1641474366, blue: 0.07612364739, alpha: 1)
@@ -159,10 +168,6 @@ extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
         case .theVenti:
             return #colorLiteral(red: 0.6823529412, green: 0.6117647059, blue: 0.7098039216, alpha: 1)
         }
-    }
-
-    var orderList: [OrderItem] {
-        viewModel.orderList
     }
     
     func orderListViewCancelButtonDidTap() {
