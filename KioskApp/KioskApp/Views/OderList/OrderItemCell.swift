@@ -194,7 +194,12 @@ class OrderItemCell: UITableViewCell {
     /// 주문 항목(OrderItem)을 받아 UI 요소에 값을 설정합니다.
     func configure(with order: OrderItem) {
         self.orderItem = order
-        titleLabel.text = "(\(order.brand)) \(order.name)"
+        if order.category != .dessert {
+            let categorySuffix = String(order.category.rawValue.suffix(3))
+            titleLabel.text = "[ \(order.brand.displayName) ] \(order.name) \(categorySuffix)"
+        } else {
+            titleLabel.text = "[ \(order.brand.displayName) ] \(order.name)"
+        }
         quantityLabel.text = "\(order.count)"
         priceLabel.text = "\(order.price * order.count)원"
     }
