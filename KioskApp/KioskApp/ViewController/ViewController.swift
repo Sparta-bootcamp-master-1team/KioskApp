@@ -157,23 +157,23 @@ extension ViewController: CoffeeButtonViewDelegate {
 
 extension ViewController: CoffeeCategoryCollectionViewDelegate {
     func categoryButtonDidTap(index: Int) {
-//        switch index {
-//        case 1:
-//            viewModel.changeCategory(.coffee)
-//            viewModel.changeOption(.ice)
-//        case 2:
-//            viewModel.changeCategory(.coffee)
-//            viewModel.changeOption(.hot)
-//        case 3:
-//            viewModel.changeCategory(.beverage)
-//            viewModel.changeOption(.ice)
-//        case 4:
-//            viewModel.changeCategory(.beverage)
-//            viewModel.changeOption(.hot)
-//        default:
-//            viewModel.changeCategory(.dessert)
-//            viewModel.changeOption(nil)
-//        }
+        switch index {
+        case 1:
+            viewModel.changeCategory(.coffee)
+            viewModel.changeOption(.ice)
+        case 2:
+            viewModel.changeCategory(.coffee)
+            viewModel.changeOption(.hot)
+        case 3:
+            viewModel.changeCategory(.beverage)
+            viewModel.changeOption(.ice)
+        case 4:
+            viewModel.changeCategory(.beverage)
+            viewModel.changeOption(.hot)
+        default:
+            viewModel.changeCategory(.dessert)
+            viewModel.changeOption(nil)
+        }
     }
 }
 
