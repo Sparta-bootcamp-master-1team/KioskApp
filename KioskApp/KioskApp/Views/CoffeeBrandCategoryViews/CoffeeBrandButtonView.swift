@@ -16,7 +16,7 @@ class CoffeeBrandButtonView: UIView {
     
     weak var delegate: CoffeeButtonViewDelegate?
     
-    // MARK: coffeeBrandButton 설정
+    // MARK: - coffeeBrandButton 설정
     
     // 커피 브랜드 로고 버튼
     private let coffeeBrandButton: UIButton = {
@@ -43,8 +43,8 @@ class CoffeeBrandButtonView: UIView {
         return button
     }()
     
-    // MARK: init 및 UI 설정
-    
+    // MARK: - init 및 UI 설정
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -64,8 +64,26 @@ class CoffeeBrandButtonView: UIView {
         }
     }
     
-    // MARK: UIMenu 설정
+    // MARK: - 커피 브랜드 변경 처리
     
+    private func coffeeBrandChanged(brandName: String) {
+        guard let brand = Brand(rawValue: brandName) else { return }
+        delegate?.brandButtonDidTap(brand: brand)
+    }
+    
+    private func coffeeBrandImageChange(imageName: String) {
+        let image = UIImage(named: imageName)
+        let resizedImage = image?.resized(to: CGSize(width: 180, height: 60))
+
+        var config = coffeeBrandButton.configuration
+        config?.image = resizedImage
+        coffeeBrandButton.configuration = config
+    }
+}
+
+// MARK: - UIMenu 설정
+
+extension CoffeeBrandButtonView {
     // "메가커피", "빽다방", "더벤티" 선택하는 UIMenu
     private func coffeeBrandMenu() {
         let coffeeBrandItems = [
@@ -78,23 +96,9 @@ class CoffeeBrandButtonView: UIView {
         // coffeeBrandButton에 메뉴 연결
         coffeeBrandButton.menu = menu
     }
-    
-    private func coffeeBrandChanged(brandName: String) {
-        guard let brand = Brand(rawValue: brandName) else { return }
-        delegate?.brandButtonDidTap(brand: brand)
-    }
-    
-    func coffeeBrandImageChange(imageName: String) {
-        let image = UIImage(named: imageName)
-        let resizedImage = image?.resized(to: CGSize(width: 180, height: 60))
-
-        var config = coffeeBrandButton.configuration
-        config?.image = resizedImage
-        coffeeBrandButton.configuration = config
-    }
 }
 
-// MARK: 이미지 사이즈 조정을 위한 UIImage 확장
+// MARK: - 이미지 사이즈 조정을 위한 UIImage 확장
 
 extension UIImage {
     // 이미지 크기를 조정하여 반환하는 함수
