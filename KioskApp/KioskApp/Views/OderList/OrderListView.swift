@@ -178,7 +178,7 @@ class OrderListView: UIView {
             return
         }
         let total = orders.reduce(0) { $0 + $1.price * $1.count }
-        totalPriceLabel.text = "총 가격: \(total)원"
+        totalPriceLabel.text = "총 가격: \(total.formattedWithSeparator)원"
     }
     
     func changeColor() {

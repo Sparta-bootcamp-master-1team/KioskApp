@@ -201,7 +201,7 @@ class OrderItemCell: UITableViewCell {
             titleLabel.text = "[ \(order.brand.displayName) ] \(order.name)"
         }
         quantityLabel.text = "\(order.count)"
-        priceLabel.text = "\(order.price * order.count)원"
+        priceLabel.text = "\((order.price * order.count).formattedWithSeparator)원"
     }
 
     
