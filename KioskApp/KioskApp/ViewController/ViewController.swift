@@ -126,7 +126,7 @@ class ViewController: UIViewController {
         view.addSubview(spinnerView)
         spinnerView.startAnimating()
         spinnerView.snp.makeConstraints { make in
-            make.verticalEdges.horizontalEdges.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
     
@@ -204,11 +204,18 @@ extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
     }
     
     func orderListViewCancelButtonDidTap() {
-        viewModel.orderCacelAll()
-    }
-    
-    func orderListViewOrderButtonDidTap() {
-        print("주문버튼 탭")
+        let alert = UIAlertController(title: "주문 취소", message: "주문을 취소하시겠어요?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "예", style: .destructive) { _ in
+            self.viewModel.orderCacelAll()
+        }
+        
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
     }
 }
 
