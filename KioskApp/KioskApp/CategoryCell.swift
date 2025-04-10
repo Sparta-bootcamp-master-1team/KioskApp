@@ -12,7 +12,7 @@ class CategoryCell: UICollectionViewCell {
     // CollectionView에서 재사용하기 위한 셀의 식별자
     static let identifier = "CategoryCell"
     
-    // MARK: UILabel
+    // MARK: - UILabel
     
     // 셀의 titleLabel
     private let titleLabel: UILabel = {
@@ -23,7 +23,7 @@ class CategoryCell: UICollectionViewCell {
         return label
     }()
     
-    // MARK: init 및 UI 설정
+    // MARK: - init 및 UI 설정
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,14 +46,14 @@ class CategoryCell: UICollectionViewCell {
         contentView.clipsToBounds = true
     }
     
-    //MARK: configureUI
+    //MARK: - configureUI
     
     // 데이터 전달
     func configureUI(title: String) {
         titleLabel.text = title
     }
     
-    //MARK: isSelected
+    //MARK: - isSelected
     
     // 셀이 선택되었을 때 상태 처리
     override var isSelected: Bool {

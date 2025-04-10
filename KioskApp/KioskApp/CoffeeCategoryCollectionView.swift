@@ -12,16 +12,14 @@ protocol CoffeeCategoryCollectionViewDelegate: AnyObject {
     func categoryButtonDidTap(index: Int)
 }
 
-class CoffeeCategoryCollectionView: UIView,
-                            UICollectionViewDataSource,
-                            UICollectionViewDelegateFlowLayout {
+class CoffeeCategoryCollectionView: UIView {
     
     weak var delegate: CoffeeCategoryCollectionViewDelegate?
     
     // 메뉴 카테고리 배열
     private let categories = ["추천메뉴", "커피(ICED)", "커피(HOT)", "음료(ICED)", "음료(HOT)", "디저트"]
     
-    // MARK: UICollectionView
+    // MARK: - UICollectionView
     
     // 메뉴 카테고리를 위한 UICollectionView 생성
     private(set) lazy var categoryCollectionView: UICollectionView = {
@@ -39,7 +37,7 @@ class CoffeeCategoryCollectionView: UIView,
         return view
     }()
     
-    // MARK: init 및 UI 설정
+    // MARK: - init 및 UI 설정
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,7 +56,7 @@ class CoffeeCategoryCollectionView: UIView,
         }
     }
     
-    //MARK: layoutSubviews
+    //MARK: - layoutSubviews
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -72,9 +70,11 @@ class CoffeeCategoryCollectionView: UIView,
             cell.isSelected = true
         }
     }
-    
-    // MARK: UICollectionView DataSource & Delegate Methods
-    
+}
+
+// MARK: - UICollectionView DataSource
+
+extension CoffeeCategoryCollectionView: UICollectionViewDataSource {
     // 셀의 개수 반환 함수
     func collectionView(
         _ collectionView: UICollectionView,
@@ -100,7 +100,11 @@ class CoffeeCategoryCollectionView: UIView,
         cell.configureUI(title: categories[indexPath.item]) // 셀에 데이터 전달
         return cell
     }
-    
+}
+
+// MARK: - UICollectionView DelegateFlowLayout
+
+extension CoffeeCategoryCollectionView: UICollectionViewDelegateFlowLayout {
     // 셀 크기 설정 함수
     func collectionView(
         _ collectionView: UICollectionView,
