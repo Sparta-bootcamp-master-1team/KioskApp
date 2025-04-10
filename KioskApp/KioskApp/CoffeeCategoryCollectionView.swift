@@ -37,6 +37,12 @@ class CoffeeCategoryCollectionView: UIView {
         return view
     }()
     
+    var currentBrand: Brand = .mega { // 기본 메가로 설정
+        didSet {
+            categoryCollectionView.reloadData()
+        }
+    }
+    
     // MARK: - init 및 UI 설정
     
     override init(frame: CGRect) {
@@ -98,6 +104,8 @@ extension CoffeeCategoryCollectionView: UICollectionViewDataSource {
         }
         
         cell.configureUI(title: categories[indexPath.item]) // 셀에 데이터 전달
+        // 브랜드 변경에 따라 셀 배경색 변경 메서드 호출
+        cell.updateBackgroundColor(brand: currentBrand)
         return cell
     }
 }
