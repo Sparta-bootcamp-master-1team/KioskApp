@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     private let productGirdView = ProductGridView()
     private let orderListView = OrderListView()
 
+    private let spinnerView = SpinnerView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.8235294118, blue: 0.2, alpha: 1)
@@ -101,6 +103,18 @@ class ViewController: UIViewController {
         viewModel.orderProductsChanged = { [weak self] in
             self?.orderListView.reloadTable()
         }
+        
+        viewModel.dataFetchStarted = { [weak self] in
+            self?.startSpinnerView()
+        }
+        
+        viewModel.dataFetchCompleted = { [weak self] in
+            self?.stopSinnerView()
+        }
+        
+        viewModel.dataFetchFailed = { [weak self] in
+            self?.spinnerView.presentFailureView()
+        }
     }
     
     private func coffeeBrandImageChange(brand: Brand) {
@@ -110,6 +124,21 @@ class ViewController: UIViewController {
     
     private func categoryChanged(index: Int) {
         
+    }
+    
+    func startSpinnerView() {
+        view.addSubview(spinnerView)
+        spinnerView.startAnimating()
+        spinnerView.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+            make.verticalEdges.horizontalEdges.equalToSuperview()
+//            make.top.equalToSuperview().offset(view.frame.height / 3)
+        }
+    }
+    
+    func stopSinnerView() {
+        spinnerView.stopAnimating()
+        spinnerView.removeFromSuperview()
     }
     
     private func configureUI() {
@@ -127,23 +156,23 @@ extension ViewController: CoffeeButtonViewDelegate {
 
 extension ViewController: CoffeeCategoryCollectionViewDelegate {
     func categoryButtonDidTap(index: Int) {
-        switch index {
-        case 1:
-            viewModel.changeCategory(.coffee)
-            viewModel.changeOption(.ice)
-        case 2:
-            viewModel.changeCategory(.coffee)
-            viewModel.changeOption(.hot)
-        case 3:
-            viewModel.changeCategory(.beverage)
-            viewModel.changeOption(.ice)
-        case 4:
-            viewModel.changeCategory(.beverage)
-            viewModel.changeOption(.hot)
-        default:
-            viewModel.changeCategory(.dessert)
-            viewModel.changeOption(nil)
-        }
+//        switch index {
+//        case 1:
+//            viewModel.changeCategory(.coffee)
+//            viewModel.changeOption(.ice)
+//        case 2:
+//            viewModel.changeCategory(.coffee)
+//            viewModel.changeOption(.hot)
+//        case 3:
+//            viewModel.changeCategory(.beverage)
+//            viewModel.changeOption(.ice)
+//        case 4:
+//            viewModel.changeCategory(.beverage)
+//            viewModel.changeOption(.hot)
+//        default:
+//            viewModel.changeCategory(.dessert)
+//            viewModel.changeOption(nil)
+//        }
     }
 }
 

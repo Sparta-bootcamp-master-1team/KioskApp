@@ -51,7 +51,9 @@ final class OrderViewModel {
     /// 브랜드가 변경될 때 호출되는 클로저
     var brandChanged: ((Brand) -> Void)?
     
-    
+    var dataFetchStarted: (() -> Void)?
+    var dataFetchCompleted: (() -> Void)?
+    var dataFetchFailed: (() -> Void)?
     /// JSON 파일에서 상품 데이터를 불러와 ViewModel에 저장합니다.
     /// 데이터가 성공적으로 로드되면 `product` 프로퍼티에 저장되고,
     /// 선택된 조건에 따라 필터링된 상품 목록을 사용할 수 있게 됩니다.
@@ -62,13 +64,18 @@ final class OrderViewModel {
     func fetchProducts() {
         let dataProvider = DataProvider()
         Task {
+            await MainActor.run {
+                dataFetchStarted?()
+            }
             do {
                 let beverages = try await dataProvider.process()
                 await MainActor.run {
                     self.beverage = beverages
                     self.categoryChanged?()
+                    dataFetchCompleted?()
                 }
             } catch {
+                dataFetchFailed?()
                 print(error.localizedDescription)
             }
         }
