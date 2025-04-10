@@ -1,7 +1,13 @@
 import UIKit
 import SnapKit
 
+protocol SpinnerViewButtonDelegate: AnyObject {
+    func spinnerViewRetryButtonTapped()
+}
+
 class SpinnerView: UIView {
+    
+    weak var delegate: SpinnerViewButtonDelegate?
     
     private let indicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
@@ -13,7 +19,7 @@ class SpinnerView: UIView {
     
     private lazy var failureView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -40,12 +46,13 @@ class SpinnerView: UIView {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(retryButtonTapped), for: .touchUpInside)
         return button
     }()
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
         failureView.addSubview(titleLabel)
         failureView.addSubview(retryButton)
         failureView.addSubview(descriptionLabel)
@@ -58,12 +65,14 @@ class SpinnerView: UIView {
         
         failureView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(150)
+            make.height.greaterThanOrEqualTo(200)
+            make.width.equalToSuperview().multipliedBy(0.8)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().inset(20)
         }
         
         descriptionLabel.snp.makeConstraints { make in
@@ -73,19 +82,22 @@ class SpinnerView: UIView {
         
         retryButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(30)
+            make.width.equalTo(70)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(50)
         }
-        
-        indicatorView.isHidden = true
-        failureView.isHidden = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func retryButtonTapped() {
+        delegate?.spinnerViewRetryButtonTapped()
+    }
+    
     func startAnimating() {
         self.indicatorView.startAnimating()
+        failureView.isHidden = true
     }
     
     func stopAnimating() {

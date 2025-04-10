@@ -80,6 +80,7 @@ class ViewController: UIViewController {
         orderListView.dataSource = self
         orderListView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
+        spinnerView.delegate = self
     }
     
     private func bindViewModel() {
@@ -222,5 +223,12 @@ extension ViewController: OrderItemCellDelegate {
     
     func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
         print(1)
+    }
+}
+
+// MARK: - SpinnerView RetryButton Tap Delegate
+extension ViewController: SpinnerViewButtonDelegate {
+    func spinnerViewRetryButtonTapped() {
+        viewModel.fetchProducts()
     }
 }
