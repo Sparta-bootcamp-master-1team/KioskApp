@@ -13,13 +13,9 @@ final class OrderViewModel {
     /// JSON으로부터 불러온 전체 상품 데이터를 저장하는 프로퍼티입니다.
     /// 내부적으로 `fetchProductData()`를 통해 주입되며,
     /// `selectedBrand`, `selectedCategory`, `selectedOption` 조합에 따라 필터링된 음료 리스트를 제공합니다.
-    private var product: Product?
-    
-    /// 현재 선택된 브랜드, 카테고리, 옵션에 따라 필터링된 음료 목록을 반환합니다.
-    /// - Returns: 선택된 조건에 맞는 `[Beverage]` 배열 (데이터가 없으면 `nil`)
-    var beverage: [Beverage]? {
-        product?.fetchData(brand: selectedBrand, category: selectedCategory, option: selectedOption)
-    }
+//    private var beverage: [Beverage]?
+    var beverage: [Beverage]?
+
     
     // MARK: - 상태
     
@@ -30,15 +26,8 @@ final class OrderViewModel {
         }
     }
     
-    /// 현재 선택된 카테고리 (기본값: .coffee)
-    private(set) var selectedCategory: Category = .coffee {
-        didSet {
-            categoryChanged?()
-        }
-    }
-    
-    /// 현재 선택된 옵션 (기본값: .hot)
-    private(set) var selectedOption: Option? = .ice {
+    /// 현재 선택된 카테고리 (기본값: .coffeeHot)
+    private(set) var selectedCategory: Category = .coffeeHot {
         didSet {
             categoryChanged?()
         }
@@ -71,12 +60,15 @@ final class OrderViewModel {
     
     
     func fetchProducts() {
-        DataService.fetchData { result in
-            switch result {
-            case .success(let product):
-                self.product = product
-                self.categoryChanged?()
-            case .failure(let error):
+        let dataProvider = DataProvider()
+        Task {
+            do {
+                let beverages = try await dataProvider.process()
+                await MainActor.run {
+                    self.beverage = beverages
+                    self.categoryChanged?()
+                }
+            } catch {
                 print(error.localizedDescription)
             }
         }
@@ -137,17 +129,12 @@ final class OrderViewModel {
         selectedCategory = category
     }
     
-    func changeOption(_ option: Option?) {
-        selectedOption = option
-    }
     
     /// 현재 선택된 브랜드를 변경합니다.
     /// - Parameter brand: 변경할 브랜드
     func changeBrand(_ brand: Brand) {
         selectedBrand = brand
-        selectedCategory = .coffee
-        selectedOption = .hot
-        
+        selectedCategory = .coffeeHot
         categoryChanged?()
     }
     
