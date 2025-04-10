@@ -37,11 +37,15 @@ class CoffeeCategoryCollectionView: UIView {
         return view
     }()
     
-    var currentBrand: Brand = .mega { // 기본 메가로 설정
+    private var selectedIndex: IndexPath = IndexPath(item: 0, section: 0)
+    
+    var buttonBackgroundColor: UIColor = #colorLiteral(red: 0.3039717376, green: 0.1641474366, blue: 0.07612364739, alpha: 1) {
         didSet {
-            categoryCollectionView.reloadData()
+            categoryCollectionView.reloadData() // 브랜드 색상 변경 시 전체 리로드
+            selectRecommendedMenu() // 브랜드 변경 시 추천메뉴 선택 유지
         }
     }
+    
     
     // MARK: - init 및 UI 설정
     
@@ -62,21 +66,26 @@ class CoffeeCategoryCollectionView: UIView {
         }
     }
     
+    // 추천메뉴 셀 선택 메서드
+    func selectRecommendedMenu() {
+        let indexPath = IndexPath(item: 0, section: 0)
+        selectedIndex = indexPath
+        categoryCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        
+        categoryCollectionView.reloadData()
+        
+        delegate?.categoryButtonDidTap(index: 0) // 위임자에게 선택 알림
+    }
+    
     //MARK: - layoutSubviews
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        // 초기 선택 상태 설정
-        let indexPath = IndexPath(item: 0, section: 0) // 첫 번째 셀
-        categoryCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        
-        // 선택된 셀의 반환 및 스타일 적용
-        if let cell = categoryCollectionView.cellForItem(at: indexPath) as? CategoryCell {
-            cell.isSelected = true
+        if categoryCollectionView.indexPathsForSelectedItems?.isEmpty ?? true {
+            selectRecommendedMenu()
         }
     }
-
 }
 
 // MARK: - UICollectionView DataSource
@@ -104,10 +113,11 @@ extension CoffeeCategoryCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configureUI(title: categories[indexPath.item]) // 셀에 데이터 전달
-
-        // 브랜드 변경에 따라 셀 배경색 변경 메서드 호출
-        cell.updateBackgroundColor(brand: currentBrand)
+        let isSelected = (indexPath == selectedIndex)
+        
+        cell.configureUI(title: categories[indexPath.item])
+        
+        cell.updateAppearance(isSelected: isSelected, backgroundColor: buttonBackgroundColor)
         return cell
     }
 }
@@ -115,7 +125,7 @@ extension CoffeeCategoryCollectionView: UICollectionViewDataSource {
 // MARK: - UICollectionView DelegateFlowLayout
 
 extension CoffeeCategoryCollectionView: UICollectionViewDelegateFlowLayout {
-
+    
     // 셀 크기 설정 함수
     func collectionView(
         _ collectionView: UICollectionView,
@@ -130,6 +140,8 @@ extension CoffeeCategoryCollectionView: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        selectedIndex = indexPath
+        collectionView.reloadData()
         delegate?.categoryButtonDidTap(index: indexPath.row)
     }
 }

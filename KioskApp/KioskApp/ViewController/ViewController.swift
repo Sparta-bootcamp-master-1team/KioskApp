@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-   
+    
     private let viewModel = OrderViewModel()
     
     private let coffeeBrandButtonView = CoffeeBrandButtonView()
@@ -14,7 +14,9 @@ class ViewController: UIViewController {
     private let productGirdView = ProductGridView()
     private let orderListView = OrderListView()
 
+
     private let spinnerView = SpinnerView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +90,9 @@ class ViewController: UIViewController {
             self?.updateBackgroundColor(for: brand)
             self?.coffeeBrandImageChange(for: brand)
             self?.orderListView.changeColor()
+            
+            self?.coffeeCategoryView.buttonBackgroundColor = self?.buttonBackgroundColor ?? .white // 브랜드 색상 업데이트
+            self?.coffeeCategoryView.selectRecommendedMenu() // 추천메뉴 자동 선택 유지
         }
         
         viewModel.categoryChanged = { [weak self] beverage in
@@ -142,13 +147,16 @@ class ViewController: UIViewController {
     
     private func coffeeBrandImageChange(for brand: Brand) {
         let imageName = "\(brand.rawValue)" + "Logo"
-        coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
+        //        coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
     }
 }
 
 extension ViewController: CoffeeButtonViewDelegate {
     func brandButtonDidTap(brand: Brand) {
         viewModel.changeBrand(brand)
+        
+        coffeeCategoryView.buttonBackgroundColor = buttonBackgroundColor // 브랜드 색상 업데이트
+        coffeeCategoryView.selectRecommendedMenu() // 추천메뉴 자동 선택 유지
     }
 }
 
