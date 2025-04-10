@@ -9,6 +9,8 @@ import SnapKit
 
 protocol OrderListViewDataSource: AnyObject {
     var orderList: [OrderItem] { get }
+    var labelColor: UIColor { get }
+    var buttonColor: UIColor { get }
 }
 
 protocol OrderListViewDelegate: AnyObject {
@@ -167,7 +169,7 @@ class OrderListView: UIView {
         }
     }
     //
-    //    / 현재 장바구니의 총 가격을 계산해 텍스트로 표시합니다.
+    /// 현재 장바구니의 총 가격을 계산해 텍스트로 표시합니다.
     func updateTotalPrice() {
         // 일딴 이렇게 해놨지만 추후 오류 메세지 출력도 좋아보입니다.
         guard let orders = dataSource?.orderList else {
@@ -176,6 +178,11 @@ class OrderListView: UIView {
         }
         let total = orders.reduce(0) { $0 + $1.price * $1.count }
         totalPriceLabel.text = "총 가격: \(total)원"
+    }
+    
+    func changeColor() {
+        titleLabel.textColor = dataSource?.labelColor
+        orderButton.setTitleColor(dataSource?.buttonColor, for: .normal)
     }
 //
 //    /// OrderListTableView 내부에서 수량이 변경되었을 때 호출되는 델리게이트 메서드입니다.
