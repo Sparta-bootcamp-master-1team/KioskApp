@@ -57,35 +57,13 @@ class CategoryCell: UICollectionViewCell {
 //MARK: - 셀이 선택되었을 때 상태 처리
 
 extension CategoryCell {
-    override var isSelected: Bool {
-        didSet {
-            updateAppearance()
-        }
-    }
-    
-    private func updateAppearance() {
+    func updateAppearance(isSelected: Bool, backgroundColor: UIColor) {
         if isSelected {
-            contentView.backgroundColor = #colorLiteral(red: 0.2353164852, green: 0.1198656633, blue: 0.06329972297, alpha: 1)
+            contentView.backgroundColor = backgroundColor // 선택된 셀의 배경색 설정
             titleLabel.textColor = .white
         } else {
             contentView.backgroundColor = .white
             titleLabel.textColor = .black
-        }
-    }
-}
-
-//MARK: - 셀 배경색 변경 메서드
-
-extension CategoryCell {
-    func updateBackgroundColor(brand: Brand) {
-        switch brand {
-        case .mega:
-            contentView.backgroundColor = #colorLiteral(red: 0.2353164852, green: 0.1198656633, blue: 0.06329972297, alpha: 1)
-        case .paik:
-            contentView.backgroundColor = #colorLiteral(red: 0.6387647986, green: 0.683789432, blue: 0.7854922414, alpha: 1)
-        case .theVenti:
-            contentView.backgroundColor = #colorLiteral(red: 0.6821619868, green: 0.6132372022, blue: 0.7087652087, alpha: 1)
-
         }
     }
 }
