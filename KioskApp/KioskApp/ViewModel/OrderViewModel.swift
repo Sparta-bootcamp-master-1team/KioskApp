@@ -130,11 +130,8 @@ final class OrderViewModel {
         guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
         if orderList[index].count > 1 {
             orderList[index].decreaseCount()
-            
-        } else {
-            self.removeOrder(beverage)
+            orderProductsChanged?()
         }
-        orderProductsChanged?()
     }
     
     /// 주문 항목을 삭제합니다.
