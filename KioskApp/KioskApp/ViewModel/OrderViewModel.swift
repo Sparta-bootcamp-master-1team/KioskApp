@@ -101,6 +101,7 @@ final class OrderViewModel {
     /// - Parameter beverage: 추가할 음료
     func addOrder(_ beverage: Beverage) {
         if let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand && $0.category == beverage.category }) {
+            guard orderList[index].count < 10 else { return }
             orderList[index].increaseCount()
         } else {
             let newItem = OrderItem(name: beverage.name,
@@ -117,6 +118,7 @@ final class OrderViewModel {
     /// - Parameter beverage: 수량을 증가시킬 음료
     func orderCountIncreament(_ beverage: OrderItem) {
         guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
+        guard orderList[index].count < 10 else { return }
         orderList[index].increaseCount()
         orderProductsChanged?()
     }
