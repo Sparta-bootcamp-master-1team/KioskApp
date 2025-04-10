@@ -8,10 +8,16 @@
 import UIKit
 import SnapKit
 
+protocol productGridViewDelegate: AnyObject {
+    func collectionViewCellDidTap(item: Beverage)
+}
+
 class ProductGridView: UIView {
     
+    weak var delegate: productGridViewDelegate?
+    
     // 상품 목록을 표시할 컬렉션 뷰
-    private(set) lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout())
         collectionView.alwaysBounceVertical = false // 수직 바운스 비활성화
         collectionView.backgroundColor = .clear
@@ -24,6 +30,7 @@ class ProductGridView: UIView {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .black // 현재 페이지 색상
         pageControl.pageIndicatorTintColor = .systemGray    // 나머지 점 색상
+        pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
     
@@ -39,6 +46,7 @@ class ProductGridView: UIView {
         super.init(frame: .zero)
         setupUI()
         configureCollectionView()
+        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -150,5 +158,16 @@ class ProductGridView: UIView {
     func configure(items: [Beverage]) {
         configureSnapshot(items: items)
         configurePageControl(count: items.count)
+        
+        if items.count > 0 {
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+        }
+    }
+}
+
+extension ProductGridView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = datasource.itemIdentifier(for: indexPath) else { return }
+        delegate?.collectionViewCellDidTap(item: item)
     }
 }

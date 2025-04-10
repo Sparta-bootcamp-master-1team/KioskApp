@@ -7,9 +7,21 @@
 import UIKit
 import SnapKit
 
+protocol OrderListViewDataSource: AnyObject {
+    var orderList: [OrderItem] { get }
+}
+
+protocol OrderListViewDelegate: AnyObject {
+    func orderListViewCancelButtonDidTap()
+    func orderListViewOrderButtonDidTap()
+}
+
 /// 장바구니 화면을 구성하는 메인 뷰입니다.
 /// 타이틀, 주문 리스트, 총 가격, 주문/취소 버튼 등으로 구성되어 있습니다.
 class OrderListView: UIView {
+    
+    weak var dataSource: OrderListViewDataSource?
+    weak var delegate: OrderListViewDelegate?
     
     // MARK: - UI Components
 
@@ -39,6 +51,7 @@ class OrderListView: UIView {
     /// 코드로 뷰를 초기화할 때 호출됩니다.
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        orderListTableView.tableView.dataSource = self
 //        orderListTableView.delegate = self
         setupSubViews()
         setupLayout()
@@ -128,7 +141,7 @@ class OrderListView: UIView {
         addSubview(buttonStackView)
         
         // 버튼 액션 설정
-//        cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
     }
 
     
@@ -136,10 +149,9 @@ class OrderListView: UIView {
     
     /// "주문취소" 버튼을 눌렀을 때 실행됩니다.
     /// OrderListManager의 리스트를 초기화하고 UI를 갱신합니다.
-//    @objc private func didTapCancel() {
-//        OrderListManager.shared.reset()   // 모든 항목 제거
-//        reloadTable()                     // 테이블 및 총 가격 갱신
-//    }
+    @objc private func didTapCancel() {
+        delegate?.orderListViewCancelButtonDidTap()
+    }
 
     
     // MARK: - Public Methods
@@ -147,20 +159,20 @@ class OrderListView: UIView {
     /// 테이블을 다시 그리며, 내부 높이도 계산하여 업데이트합니다.
     func reloadTable() {
         orderListTableView.reloadData()
-        
         DispatchQueue.main.async {
             self.orderListTableView.layoutIfNeeded()
             let height = self.orderListTableView.intrinsicContentHeight()
             self.orderListTableViewHeightConstraint?.update(offset: max(140, height))
-//            self.updateTotalPrice()
+            self.updateTotalPrice()
         }
     }
 //
 //    / 현재 장바구니의 총 가격을 계산해 텍스트로 표시합니다.
-//    func updateTotalPrice() {
-//        let total = OrderListManager.shared.totalPrice()
-//        totalPriceLabel.text = "총 가격: \(total)원"
-//    }
+    func updateTotalPrice() {
+        let total = dataSource?.orderList.reduce(0) { $0 + $1.price * $1.count }
+        print(total)
+        totalPriceLabel.text = "총 가격: \(total)원"
+    }
 //
 //    /// OrderListTableView 내부에서 수량이 변경되었을 때 호출되는 델리게이트 메서드입니다.
 //    func orderListTableViewDidUpdate() {

@@ -16,6 +16,11 @@ protocol OrderItemCellDelegate: AnyObject {
 }
 
 class OrderItemCell: UITableViewCell {
+    
+    private(set) var orderItem: OrderItem?
+    
+    weak var delegate: OrderItemCellDelegate?
+    
     // MARK: - UI Components
     // 뷰에 들어갈 컴포넌트들을 정의하는 공간
     /// 셀 전체를 감싸는 수평 스택 뷰입니다.
@@ -42,7 +47,6 @@ class OrderItemCell: UITableViewCell {
     private let removeButton = UIButton(type: .system)
     
     /// 셀에서 발생하는 액션을 전달할 델리게이트입니다.
-    weak var delegate: OrderItemCellDelegate?
     
     // MARK: - Initializers
     // init(frame:) 또는 required init?(coder:) 구현
@@ -189,6 +193,7 @@ class OrderItemCell: UITableViewCell {
     // MARK: - Public Methods
     /// 주문 항목(OrderItem)을 받아 UI 요소에 값을 설정합니다.
     func configure(with order: OrderItem) {
+        self.orderItem = order
         titleLabel.text = "(\(order.brand)) \(order.name)"
         quantityLabel.text = "\(order.count)"
         priceLabel.text = "\(order.price * order.count)원"
