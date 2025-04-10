@@ -145,6 +145,7 @@ class OrderListView: UIView {
         
         // 버튼 액션 설정
         cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
+        orderButton.addTarget(self, action: #selector(didTapOrder), for: .touchUpInside)
     }
 
     
@@ -155,6 +156,11 @@ class OrderListView: UIView {
     @objc private func didTapCancel() {
         delegate?.orderListViewCancelButtonDidTap()
     }
+    
+    @objc private func didTapOrder() {
+        delegate?.orderListViewOrderButtonDidTap()
+    }
+    
 
     
     // MARK: - Public Methods
