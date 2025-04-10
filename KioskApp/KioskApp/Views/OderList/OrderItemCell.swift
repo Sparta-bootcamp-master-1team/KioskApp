@@ -86,7 +86,7 @@ class OrderItemCell: UITableViewCell {
         rightStack.alignment = .center
         rightStack.addArrangedSubview(priceLabel)
         
-        //rightStack.addArrangedSubview(removeButton)
+        rightStack.addArrangedSubview(removeButton)
 
         // 메인 스택에 모두 추가
         hStackView.addArrangedSubview(leftStack)
@@ -115,13 +115,13 @@ class OrderItemCell: UITableViewCell {
         }
         
         leftStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.55)
+            make.width.equalTo(hStackView).multipliedBy(0.5)
         }
         centerStack.snp.makeConstraints { make in
             make.width.equalTo(hStackView).multipliedBy(0.25)
         }
         rightStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.2)
+            make.width.equalTo(hStackView).multipliedBy(0.25)
         }
     }
     
