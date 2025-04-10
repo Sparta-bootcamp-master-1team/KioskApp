@@ -7,7 +7,13 @@ class ImageCacheManager {
     private init() {}
     
     var cache = NSCache<NSString, UIImage>()
-    
+    func image(from urlPath: String) -> UIImage? {
+        let urlNSString = NSString(string: urlPath)
+        if let image = cache.object(forKey: urlNSString) {
+            return image
+        }
+        return UIImage()
+    }
     func image(from urlPath: String) async throws {
         let urlNSString = NSString(string: urlPath)
         if let image = cache.object(forKey: urlNSString) {
