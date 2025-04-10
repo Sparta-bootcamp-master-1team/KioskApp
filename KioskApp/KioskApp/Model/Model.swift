@@ -29,10 +29,11 @@ struct Beverage: Decodable, Hashable {
 
 
 /// 장바구니 제품 모델
-struct OrderItem {
+struct OrderItem: Equatable {
     let name: String
     let price: Int
     let brand: Brand
+    let category: Category
     var count: Int
     
     var orderTitle: String {
@@ -47,6 +48,9 @@ struct OrderItem {
         self.count -= 1
     }
     
+    static func == (lhs: OrderItem, rhs: OrderItem) -> Bool {
+        return lhs.name == rhs.name && lhs.price == rhs.price && lhs.brand == rhs.brand && lhs.count == rhs.count && lhs.category == rhs.category
+    }
 }
 
 struct NetworkResponse: Decodable {
