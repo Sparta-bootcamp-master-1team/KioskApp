@@ -17,14 +17,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.8235294118, blue: 0.2, alpha: 1)
-        setupAddSubView()
+        addSubViews()
         setupUI()
         configureSubViews()
         bindViewModel()
         viewModel.fetchProducts()
     }
     
-    private func setupAddSubView() {
+    private func addSubViews() {
         [coffeeBrandButtonView, coffeeCategoryView, scrollView]
             .forEach { self.view.addSubview($0) }
         
@@ -82,20 +82,13 @@ class ViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.brandChanged = { [weak self] brand in
-            switch brand {
-            case .mega:
-                self?.view.backgroundColor = #colorLiteral(red: 0.9614067674, green: 0.8476976752, blue: 0.2546326518, alpha: 1)
-            case .paik:
-                self?.view.backgroundColor = #colorLiteral(red: 0.1450980392, green: 0.2470588235, blue: 0.5215686275, alpha: 1)
-            case .theVenti:
-                self?.view.backgroundColor = #colorLiteral(red: 0.168627451, green: 0, blue: 0.2235294118, alpha: 1)
-            }
-            
-            self?.coffeeBrandImageChange(brand: brand)
+            self?.updateBackgroundColor(for: brand)
+            self?.coffeeBrandImageChange(for: brand)
+            self?.orderListView.changeColor()
         }
         
-        viewModel.categoryChanged = { [weak self] in
-            self?.configureUI()
+        viewModel.categoryChanged = { [weak self] beverage in
+            self?.productGirdView.configure(items: beverage)
         }
         
         viewModel.orderProductsChanged = { [weak self] in
@@ -103,20 +96,21 @@ class ViewController: UIViewController {
         }
     }
     
-    private func coffeeBrandImageChange(brand: Brand) {
+    private func updateBackgroundColor(for brand: Brand) {
+        switch brand {
+        case .mega:
+            self.view.backgroundColor = #colorLiteral(red: 0.9614067674, green: 0.8476976752, blue: 0.2546326518, alpha: 1)
+        case .paik:
+            self.view.backgroundColor = #colorLiteral(red: 0.1450980392, green: 0.2470588235, blue: 0.5215686275, alpha: 1)
+        case .theVenti:
+            self.view.backgroundColor = #colorLiteral(red: 0.168627451, green: 0, blue: 0.2235294118, alpha: 1)
+        }
+    }
+    
+    private func coffeeBrandImageChange(for brand: Brand) {
         let imageName = "\(brand.rawValue)" + "Logo"
         coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
     }
-    
-    private func categoryChanged(index: Int) {
-        
-    }
-    
-    private func configureUI() {
-        guard let beverage = viewModel.beverage else { return }
-        productGirdView.configure(items: beverage)
-    }
-    
 }
 
 extension ViewController: CoffeeButtonViewDelegate {
@@ -125,24 +119,22 @@ extension ViewController: CoffeeButtonViewDelegate {
     }
 }
 
+
 extension ViewController: CoffeeCategoryCollectionViewDelegate {
     func categoryButtonDidTap(index: Int) {
         switch index {
+        case 0:
+            viewModel.changeCategory(.beverageHot)
         case 1:
-            viewModel.changeCategory(.coffee)
-            viewModel.changeOption(.ice)
+            viewModel.changeCategory(.coffeeIce)
         case 2:
-            viewModel.changeCategory(.coffee)
-            viewModel.changeOption(.hot)
+            viewModel.changeCategory(.coffeeHot)
         case 3:
-            viewModel.changeCategory(.beverage)
-            viewModel.changeOption(.ice)
+            viewModel.changeCategory(.beverageIce)
         case 4:
-            viewModel.changeCategory(.beverage)
-            viewModel.changeOption(.hot)
+            viewModel.changeCategory(.beverageHot)
         default:
             viewModel.changeCategory(.dessert)
-            viewModel.changeOption(nil)
         }
     }
 }
@@ -154,6 +146,21 @@ extension ViewController: productGridViewDelegate {
 }
 
 extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
+    var labelColor: UIColor {
+        viewModel.selectedBrand == .mega ? .white : .black
+    }
+    
+    var buttonColor: UIColor {
+        switch viewModel.selectedBrand {
+        case .mega:
+            return #colorLiteral(red: 0.3039717376, green: 0.1641474366, blue: 0.07612364739, alpha: 1)
+        case .paik:
+            return #colorLiteral(red: 0.768627451, green: 0.7960784314, blue: 0.8705882353, alpha: 1)
+        case .theVenti:
+            return #colorLiteral(red: 0.6823529412, green: 0.6117647059, blue: 0.7098039216, alpha: 1)
+        }
+    }
+
     var orderList: [OrderItem] {
         viewModel.orderList
     }
@@ -163,7 +170,7 @@ extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
     }
     
     func orderListViewOrderButtonDidTap() {
-        print("dfasfs")
+        print("주문버튼 탭")
     }
 }
 
@@ -192,6 +199,7 @@ extension ViewController: OrderItemCellDelegate {
     }
     
     func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
-        print(1)
+        guard let orderItem = cell.orderItem else { return }
+        viewModel.removeOrder(orderItem)
     }
 }
