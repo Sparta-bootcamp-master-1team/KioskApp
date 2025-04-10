@@ -93,12 +93,13 @@ final class OrderViewModel {
     ///
     /// - Parameter beverage: 추가할 음료
     func addOrder(_ beverage: Beverage) {
-        if let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) {
+        if let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand && $0.category == beverage.category }) {
             orderList[index].increaseCount()
         } else {
             let newItem = OrderItem(name: beverage.name,
                                     price: beverage.price,
                                     brand: beverage.brand,
+                                    category: beverage.category,
                                     count: 1)
             orderList.append(newItem)
         }
@@ -108,7 +109,7 @@ final class OrderViewModel {
     ///
     /// - Parameter beverage: 수량을 증가시킬 음료
     func orderCountIncreament(_ beverage: OrderItem) {
-        guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
+        guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
         orderList[index].increaseCount()
         orderProductsChanged?()
     }
@@ -118,13 +119,22 @@ final class OrderViewModel {
     ///
     /// - Parameter beverage: 수량을 감소시킬 음료
     func orderCountDecreament(_ beverage: OrderItem) {
-        guard let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand }) else { return }
+        guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
         if orderList[index].count > 1 {
             orderList[index].decreaseCount()
+            
         } else {
-            orderList.remove(at: index)
+            self.removeOrder(beverage)
         }
         orderProductsChanged?()
+    }
+    
+    /// 주문 항목을 삭제합니다.
+    ///
+    /// - Parameter beverage: 삭제할 음료
+    func removeOrder(_ beverage: OrderItem) {
+        guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
+        orderList.remove(at: index)
     }
     
     func orderCacelAll() {
