@@ -16,7 +16,7 @@ final class OrderViewModel {
 //    private var beverage: [Beverage]?
     var beverage: [Beverage]?
 
-    
+    var filteredBeverage: [Beverage] = []
     // MARK: - 상태
     
     /// 현재 선택된 브랜드 (기본값: .mega)
@@ -29,7 +29,12 @@ final class OrderViewModel {
     /// 현재 선택된 카테고리 (기본값: .coffeeHot)
     private(set) var selectedCategory: Category = .coffeeHot {
         didSet {
-            categoryChanged?()
+            guard let beverage else { return }
+            filteredBeverage = beverage.filter{
+                ($0.category == selectedCategory)
+                && ($0.brand == selectedBrand)
+            }
+            categoryChanged?(filteredBeverage)
         }
     }
     
@@ -46,7 +51,7 @@ final class OrderViewModel {
     var orderProductsChanged: (() -> Void)?
     
     /// 카테고리가 변경될 때 호출되는 클로저
-    var categoryChanged: (() -> Void)?
+    var categoryChanged: (([Beverage]) -> Void)?
     
     /// 브랜드가 변경될 때 호출되는 클로저
     var brandChanged: ((Brand) -> Void)?
@@ -59,6 +64,12 @@ final class OrderViewModel {
     /// - Parameter completion: 로딩 결과를 알리는 완료 핸들러 (성공: `.success`, 실패: `.failure`)
     
     
+    func selectedRecommend() {
+        guard let beverage else { return }
+        filteredBeverage = beverage.filter{ ($0.recommended != nil) && ($0.brand == selectedBrand) }
+        categoryChanged?(filteredBeverage)
+    }
+    
     func fetchProducts() {
         let dataProvider = DataProvider()
         Task {
@@ -66,7 +77,7 @@ final class OrderViewModel {
                 let beverages = try await dataProvider.process()
                 await MainActor.run {
                     self.beverage = beverages
-                    self.categoryChanged?()
+                    self.selectedRecommend()
                 }
             } catch {
                 print(error.localizedDescription)
@@ -134,8 +145,7 @@ final class OrderViewModel {
     /// - Parameter brand: 변경할 브랜드
     func changeBrand(_ brand: Brand) {
         selectedBrand = brand
-        selectedCategory = .coffeeHot
-        categoryChanged?()
+        selectedRecommend()
     }
     
     

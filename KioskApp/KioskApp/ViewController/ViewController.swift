@@ -94,7 +94,7 @@ class ViewController: UIViewController {
             self?.coffeeBrandImageChange(brand: brand)
         }
         
-        viewModel.categoryChanged = { [weak self] in
+        viewModel.categoryChanged = { [weak self] beverage in
             self?.configureUI()
         }
         
@@ -113,8 +113,7 @@ class ViewController: UIViewController {
     }
     
     private func configureUI() {
-        guard let beverage = viewModel.beverage else { return }
-        productGirdView.configure(items: beverage)
+        productGirdView.configure(items: viewModel.filteredBeverage)
     }
     
 }
@@ -129,20 +128,17 @@ extension ViewController: CoffeeCategoryCollectionViewDelegate {
     func categoryButtonDidTap(index: Int) {
         switch index {
         case 1:
-            viewModel.changeCategory(.coffee)
-            viewModel.changeOption(.ice)
+            viewModel.changeCategory(.coffeeIce)
         case 2:
-            viewModel.changeCategory(.coffee)
-            viewModel.changeOption(.hot)
+            viewModel.changeCategory(.coffeeHot)
         case 3:
-            viewModel.changeCategory(.beverage)
-            viewModel.changeOption(.ice)
+            viewModel.changeCategory(.beverageIce)
         case 4:
-            viewModel.changeCategory(.beverage)
-            viewModel.changeOption(.hot)
-        default:
+            viewModel.changeCategory(.beverageHot)
+        case 5:
             viewModel.changeCategory(.dessert)
-            viewModel.changeOption(nil)
+        default:
+            viewModel.selectedRecommend()
         }
     }
 }
