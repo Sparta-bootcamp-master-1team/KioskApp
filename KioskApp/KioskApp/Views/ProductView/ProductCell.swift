@@ -106,8 +106,9 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - UI 데이터 설정
 
-    func configureUI(imageName: String, productName: String, price: Int) {
-        imageView.image = UIImage(named: imageName)
+    func configureUI(imageName: String?, productName: String, price: Int) {
+        guard let imageName else { return }
+        imageView.image = ImageCacheManager.shared.image(from: imageName)
         productNameLabel.text = productName
         priceLabel.text = "\(price)"
     }
