@@ -11,33 +11,41 @@ class SpinnerView: UIView {
     
     private let indicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
-        view.backgroundColor = .clear
+        view.backgroundColor = .lightGray.withAlphaComponent(0.9)
         view.style = .large
         view.color = .black
+        view.layer.cornerRadius = 10
         return view
     }()
     
     private lazy var failureView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+        view.backgroundColor = .lightGray.withAlphaComponent(0.9)
+        view.layer.cornerRadius = 10
         return view
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 30, weight: .bold)
-        label.textColor = .black
         label.text = "⚠️"
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17)
-        label.textColor = .systemGray
+        label.font = .systemFont(ofSize: 17, weight: .bold)
+        label.textColor = .black
         label.numberOfLines = 0
         label.text = "데이터를 불러오는데 실패하였습니다."
         return label
+    }()
+    
+    private let backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "LoadingViewImage")
+        return imageView
     }()
     
     private lazy var retryButton: UIButton = {
@@ -53,6 +61,10 @@ class SpinnerView: UIView {
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
         self.backgroundColor = .clear
+        self.addSubview(backgroundImageView)
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         failureView.addSubview(titleLabel)
         failureView.addSubview(retryButton)
         failureView.addSubview(descriptionLabel)
@@ -60,12 +72,11 @@ class SpinnerView: UIView {
         self.addSubview(indicatorView)
         
         indicatorView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.center.equalToSuperview()
         }
         
         failureView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(150)
+            make.center.equalToSuperview()
             make.height.greaterThanOrEqualTo(200)
             make.width.equalToSuperview().multipliedBy(0.8)
         }
