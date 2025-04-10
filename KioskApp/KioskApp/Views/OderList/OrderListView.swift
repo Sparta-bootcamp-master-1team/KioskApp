@@ -183,6 +183,7 @@ class OrderListView: UIView {
     
     func changeColor() {
         titleLabel.textColor = dataSource?.labelColor
+        totalPriceLabel.textColor = dataSource?.labelColor
         orderButton.setTitleColor(dataSource?.buttonTitleColor, for: .normal)
         orderButton.backgroundColor = dataSource?.buttonBackgroundColor
     }

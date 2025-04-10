@@ -13,6 +13,10 @@ class ViewController: UIViewController {
     
     private let productGirdView = ProductGridView()
     private let orderListView = OrderListView()
+
+
+    private let spinnerView = SpinnerView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +82,7 @@ class ViewController: UIViewController {
         orderListView.dataSource = self
         orderListView.delegate = self
         orderListView.orderListTableView.tableView.dataSource = self
+        spinnerView.delegate = self
     }
     
     private func bindViewModel() {
@@ -97,6 +102,18 @@ class ViewController: UIViewController {
         viewModel.orderProductsChanged = { [weak self] in
             self?.orderListView.reloadTable()
         }
+        
+        viewModel.dataFetchStarted = { [weak self] in
+            self?.startSpinnerView()
+        }
+        
+        viewModel.dataFetchCompleted = { [weak self] in
+            self?.stopSinnerView()
+        }
+        
+        viewModel.dataFetchFailed = { [weak self] in
+            self?.spinnerView.presentFailureView()
+        }
     }
     
     private func updateBackgroundColor(for brand: Brand) {
@@ -108,6 +125,24 @@ class ViewController: UIViewController {
         case .theVenti:
             self.view.backgroundColor = #colorLiteral(red: 0.168627451, green: 0, blue: 0.2235294118, alpha: 1)
         }
+    }
+    
+    func startSpinnerView() {
+        view.addSubview(spinnerView)
+        spinnerView.startAnimating()
+        spinnerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func stopSinnerView() {
+        spinnerView.stopAnimating()
+        spinnerView.removeFromSuperview()
+    }
+    
+    private func configureUI() {
+        guard let beverage = viewModel.beverage else { return }
+        productGirdView.configure(items: beverage)
     }
     
     private func coffeeBrandImageChange(for brand: Brand) {
@@ -151,7 +186,7 @@ extension ViewController: productGridViewDelegate {
     }
 }
 
-extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
+extension ViewController: OrderListViewDataSource {
     
     var orderList: [OrderItem] {
         viewModel.orderList
@@ -175,13 +210,57 @@ extension ViewController: OrderListViewDataSource, OrderListViewDelegate {
             return #colorLiteral(red: 0.6823529412, green: 0.6117647059, blue: 0.7098039216, alpha: 1)
         }
     }
+}
+
+extension ViewController: OrderListViewDelegate {
     
     func orderListViewCancelButtonDidTap() {
-        viewModel.orderCacelAll()
+        guard !viewModel.orderList.isEmpty else { return }
+        
+        let alert = UIAlertController(title: "주문 취소", message: "주문을 취소하시겠어요?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "예", style: .destructive) { _ in
+            self.viewModel.orderCacelAll()
+        }
+        
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
     }
     
     func orderListViewOrderButtonDidTap() {
-        print("주문버튼 탭")
+        let orderList = viewModel.orderList
+        
+        guard !orderList.isEmpty else { return }
+
+        let grouped = Dictionary(grouping: orderList, by: { $0.brand })
+
+        var message = ""
+        var totalPrice = 0
+        for (brand, items) in grouped {
+            let brandName = brand.displayName
+            let count = items.reduce(0) { $0 + $1.count }
+            let price = items.reduce(0) { $0 + $1.price * $1.count }
+            totalPrice += price
+            message += "\(brandName) \(count)개 \(price.formattedWithSeparator)원\n"
+        }
+        message += "\n총 \(totalPrice.formattedWithSeparator)원\n\n담으신 상품이 맞는지 확인해주세요"
+
+        let alert = UIAlertController(title: "주문 확인", message: message, preferredStyle: .alert)
+
+        let confirmAction = UIAlertAction(title: "예", style: .default) { _ in
+            self.viewModel.orderCacelAll()
+        }
+
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel)
+
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+
+        self.present(alert, animated: true)
     }
 }
 
@@ -212,5 +291,12 @@ extension ViewController: OrderItemCellDelegate {
     func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
         guard let orderItem = cell.orderItem else { return }
         viewModel.removeOrder(orderItem)
+    }
+}
+
+// MARK: - SpinnerView RetryButton Tap Delegate
+extension ViewController: SpinnerViewButtonDelegate {
+    func spinnerViewRetryButtonTapped() {
+        viewModel.fetchProducts()
     }
 }

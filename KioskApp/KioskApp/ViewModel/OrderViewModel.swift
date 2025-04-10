@@ -56,7 +56,9 @@ final class OrderViewModel {
     /// 브랜드가 변경될 때 호출되는 클로저
     var brandChanged: ((Brand) -> Void)?
     
-    
+    var dataFetchStarted: (() -> Void)?
+    var dataFetchCompleted: (() -> Void)?
+    var dataFetchFailed: (() -> Void)?
     /// JSON 파일에서 상품 데이터를 불러와 ViewModel에 저장합니다.
     /// 데이터가 성공적으로 로드되면 `product` 프로퍼티에 저장되고,
     /// 선택된 조건에 따라 필터링된 상품 목록을 사용할 수 있게 됩니다.
@@ -73,13 +75,18 @@ final class OrderViewModel {
     func fetchProducts() {
         let dataProvider = DataProvider()
         Task {
+            await MainActor.run {
+                dataFetchStarted?()
+            }
             do {
                 let beverages = try await dataProvider.process()
                 await MainActor.run {
                     self.beverage = beverages
                     self.selectedRecommend()
+                    dataFetchCompleted?()
                 }
             } catch {
+                dataFetchFailed?()
                 print(error.localizedDescription)
             }
         }
@@ -94,6 +101,7 @@ final class OrderViewModel {
     /// - Parameter beverage: 추가할 음료
     func addOrder(_ beverage: Beverage) {
         if let index = orderList.firstIndex(where: { $0.name == beverage.name && $0.brand == beverage.brand && $0.category == beverage.category }) {
+            guard orderList[index].count < 10 else { return }
             orderList[index].increaseCount()
         } else {
             let newItem = OrderItem(name: beverage.name,
@@ -110,6 +118,7 @@ final class OrderViewModel {
     /// - Parameter beverage: 수량을 증가시킬 음료
     func orderCountIncreament(_ beverage: OrderItem) {
         guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
+        guard orderList[index].count < 10 else { return }
         orderList[index].increaseCount()
         orderProductsChanged?()
     }
@@ -122,11 +131,8 @@ final class OrderViewModel {
         guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
         if orderList[index].count > 1 {
             orderList[index].decreaseCount()
-            
-        } else {
-            self.removeOrder(beverage)
+            orderProductsChanged?()
         }
-        orderProductsChanged?()
     }
     
     /// 주문 항목을 삭제합니다.
