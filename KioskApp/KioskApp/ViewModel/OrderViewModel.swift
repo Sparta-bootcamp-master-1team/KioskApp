@@ -9,11 +9,6 @@ import Foundation
 /// 주문 화면의 상태와 로직을 관리하는 ViewModel
 final class OrderViewModel {
     
-    // MARK: - 데이터 저장
-    /// JSON으로부터 불러온 전체 상품 데이터를 저장하는 프로퍼티입니다.
-    /// 내부적으로 `fetchProductData()`를 통해 주입되며,
-    /// `selectedBrand`, `selectedCategory`, `selectedOption` 조합에 따라 필터링된 음료 리스트를 제공합니다.
-//    private var beverage: [Beverage]?
     var beverage: [Beverage]?
 
     var filteredBeverage: [Beverage] = []
@@ -59,13 +54,7 @@ final class OrderViewModel {
     var dataFetchStarted: (() -> Void)?
     var dataFetchCompleted: (() -> Void)?
     var dataFetchFailed: (() -> Void)?
-    /// JSON 파일에서 상품 데이터를 불러와 ViewModel에 저장합니다.
-    /// 데이터가 성공적으로 로드되면 `product` 프로퍼티에 저장되고,
-    /// 선택된 조건에 따라 필터링된 상품 목록을 사용할 수 있게 됩니다.
-    ///
-    /// - Parameter completion: 로딩 결과를 알리는 완료 핸들러 (성공: `.success`, 실패: `.failure`)
-    
-    
+
     func selectedRecommend() {
         guard let beverage else { return }
         filteredBeverage = beverage.filter{ ($0.recommended != nil) && ($0.brand == selectedBrand) }

@@ -58,6 +58,7 @@ class OrderListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         orderListTableView.tableView.dataSource = self
+        orderListTableView.tableView.delegate = self
         setupSubViews()
         setupLayout()
         setupStyle()
@@ -211,15 +212,16 @@ extension OrderListView: UITableViewDataSource {
     }
     
     // 섹션 높이
-    private func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 24
     }
-
+    
     /// 섹션 개수를 명시적으로 설정해야 헤더가 보입니다.
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+}
+extension OrderListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 28)
@@ -254,12 +256,12 @@ extension OrderListView: UITableViewDataSource {
         // 오른쪽 스택 (가격)
         let rightStack = UIStackView()
         rightStack.axis = .horizontal
-        rightStack.alignment = .leading
+        rightStack.alignment = .center
         rightStack.spacing = 4
         let priceLabel = UILabel()
         priceLabel.text = "가격"
         priceLabel.font = .boldSystemFont(ofSize: 14)
-        priceLabel.textAlignment = .right
+        priceLabel.textAlignment = .center
         rightStack.addArrangedSubview(priceLabel)
 
         // 스택들을 메인 스택에 추가
@@ -277,15 +279,13 @@ extension OrderListView: UITableViewDataSource {
 
         // 각 스택 비율 설정 (메뉴: 60%, 수량: 20%, 가격: 20%)
         leftStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.55)
+            make.width.equalTo(hStackView).multipliedBy(0.45)
         }
-
         centerStack.snp.makeConstraints { make in
             make.width.equalTo(hStackView).multipliedBy(0.25)
         }
-
         rightStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.2)
+            make.width.equalTo(hStackView).multipliedBy(0.3)
         }
 
         return headerView

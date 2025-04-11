@@ -76,7 +76,7 @@ class OrderItemCell: UITableViewCell {
         
         // 가운데: 수량 조절 버튼
         centerStack.axis = .horizontal
-        centerStack.spacing = 4
+        centerStack.spacing = 2
         centerStack.addArrangedSubview(minusButton)
         centerStack.addArrangedSubview(quantityLabel)
         centerStack.addArrangedSubview(plusButton)
@@ -116,10 +116,10 @@ class OrderItemCell: UITableViewCell {
         }
         
         leftStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.5)
+            make.width.equalTo(hStackView).multipliedBy(0.45)
         }
         centerStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.2)
+            make.width.equalTo(hStackView).multipliedBy(0.25)
         }
         rightStack.snp.makeConstraints { make in
             make.width.equalTo(hStackView).multipliedBy(0.3)
