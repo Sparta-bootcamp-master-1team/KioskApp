@@ -129,9 +129,13 @@ class OrderItemCell: UITableViewCell {
     /// 스타일 설정 (색상, 폰트, 코너 등)
     private func setupStyle() {
         // 메뉴 제목
+        titleLabel.textColor = .black
         titleLabel.font = .systemFont(ofSize: 14)
         titleLabel.lineBreakMode = .byTruncatingTail // 긴 텍스트는 ... 처리
         titleLabel.numberOfLines = 0
+        
+        backgroundColor = .white
+        contentView.backgroundColor = .white
         
         // 다른 뷰들이 가로 공간을 더 많이 차지해야 할 경우,
         // titleLabel은 자신의 콘텐츠보다 넓게 늘어나지 않도록 우선순위를 낮춥니다.
@@ -143,10 +147,12 @@ class OrderItemCell: UITableViewCell {
 
         
         // 수량 텍스트
+        quantityLabel.textColor = .black
         quantityLabel.font = .systemFont(ofSize: 14)
         quantityLabel.textAlignment = .center
         
         // 가격 텍스트
+        priceLabel.textColor = .black
         priceLabel.font = .systemFont(ofSize: 14, weight: .bold)
         priceLabel.textAlignment = .right
         

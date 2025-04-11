@@ -112,8 +112,10 @@ class OrderListView: UIView {
     /// 각 컴포넌트들의 스타일을 지정합니다. (폰트, 색상 등)
     private func setupStyle() {
         titleLabel.text = "장바구니"
+        titleLabel.textColor = .black
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         
+        totalPriceLabel.textColor = .black
         totalPriceLabel.font = .systemFont(ofSize: 14, weight: .bold)
         totalPriceLabel.textAlignment = .right
     }
@@ -238,6 +240,7 @@ extension OrderListView: UITableViewDelegate {
         leftStack.alignment = .leading
         let menuLabel = UILabel()
         menuLabel.text = "메뉴"
+        menuLabel.textColor = .black
         menuLabel.font = .boldSystemFont(ofSize: 14)
         menuLabel.textAlignment = .left
         leftStack.addArrangedSubview(menuLabel)
@@ -249,6 +252,7 @@ extension OrderListView: UITableViewDelegate {
         centerStack.spacing = 4
         let quantityLabel = UILabel()
         quantityLabel.text = "수량"
+        quantityLabel.textColor = .black
         quantityLabel.font = .boldSystemFont(ofSize: 14)
         quantityLabel.textAlignment = .center
         centerStack.addArrangedSubview(quantityLabel)
@@ -260,6 +264,7 @@ extension OrderListView: UITableViewDelegate {
         rightStack.spacing = 4
         let priceLabel = UILabel()
         priceLabel.text = "가격"
+        priceLabel.textColor = .black
         priceLabel.font = .boldSystemFont(ofSize: 14)
         priceLabel.textAlignment = .center
         rightStack.addArrangedSubview(priceLabel)
