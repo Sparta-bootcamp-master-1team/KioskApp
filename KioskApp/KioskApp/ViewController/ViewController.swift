@@ -168,7 +168,7 @@ extension ViewController: CoffeeCategoryCollectionViewDelegate {
     func categoryButtonDidTap(index: Int) {
         switch index {
         case 0:
-            viewModel.changeCategory(.beverageHot)
+            viewModel.selectedRecommend()
         case 1:
             viewModel.changeCategory(.coffeeIce)
         case 2:
@@ -177,8 +177,10 @@ extension ViewController: CoffeeCategoryCollectionViewDelegate {
             viewModel.changeCategory(.beverageIce)
         case 4:
             viewModel.changeCategory(.beverageHot)
-        default:
+        case 5:
             viewModel.changeCategory(.dessert)
+        default:
+            break
         }
     }
 }
