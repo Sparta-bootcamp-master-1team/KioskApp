@@ -8,7 +8,11 @@ class ViewController: UIViewController {
     private let coffeeBrandButtonView = CoffeeBrandButtonView()
     private let coffeeCategoryView = CoffeeCategoryCollectionView()
     
-    private let scrollView = UIScrollView()
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
     private let contentView = UIView()
     
     private let productGirdView = ProductGridView()
