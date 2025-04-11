@@ -85,7 +85,6 @@ class ViewController: UIViewController {
         productGirdView.delegate = self
         orderListView.dataSource = self
         orderListView.delegate = self
-        orderListView.orderListTableView.tableView.dataSource = self
         spinnerView.delegate = self
     }
     
@@ -103,7 +102,7 @@ class ViewController: UIViewController {
             self?.productGirdView.configure(items: beverage)
         }
         
-        viewModel.orderProductsChanged = { [weak self] in
+        viewModel.orderProductsChanged = { [weak self] orderList in
             self?.orderListView.reloadTable()
         }
         
@@ -123,11 +122,11 @@ class ViewController: UIViewController {
     private func updateBackgroundColor(for brand: Brand) {
         switch brand {
         case .mega:
-            self.view.backgroundColor = #colorLiteral(red: 0.9614067674, green: 0.8476976752, blue: 0.2546326518, alpha: 1)
+            self.view.backgroundColor = #colorLiteral(red: 1, green: 0.831372549, blue: 0, alpha: 1)
         case .paik:
             self.view.backgroundColor = #colorLiteral(red: 0.1450980392, green: 0.2470588235, blue: 0.5215686275, alpha: 1)
         case .theVenti:
-            self.view.backgroundColor = #colorLiteral(red: 0.168627451, green: 0, blue: 0.2235294118, alpha: 1)
+            self.view.backgroundColor = #colorLiteral(red: 0.2470588235, green: 0.007843137255, blue: 0.3254901961, alpha: 1)
         }
     }
     
@@ -151,7 +150,7 @@ class ViewController: UIViewController {
     
     private func coffeeBrandImageChange(for brand: Brand) {
         let imageName = "\(brand.rawValue)" + "Logo"
-        //        coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
+        coffeeBrandButtonView.coffeeBrandImageChange(imageName: imageName)
     }
 }
 
@@ -209,7 +208,7 @@ extension ViewController: OrderListViewDataSource {
         case .mega:
             return #colorLiteral(red: 0.3039717376, green: 0.1641474366, blue: 0.07612364739, alpha: 1)
         case .paik:
-            return #colorLiteral(red: 0.768627451, green: 0.7960784314, blue: 0.8705882353, alpha: 1)
+            return #colorLiteral(red: 0.3921568627, green: 0.4980392157, blue: 0.7803921569, alpha: 1)
         case .theVenti:
             return #colorLiteral(red: 0.6823529412, green: 0.6117647059, blue: 0.7098039216, alpha: 1)
         }
@@ -217,7 +216,6 @@ extension ViewController: OrderListViewDataSource {
 }
 
 extension ViewController: OrderListViewDelegate {
-    
     func orderListViewCancelButtonDidTap() {
         guard !viewModel.orderList.isEmpty else { return }
         
@@ -266,40 +264,22 @@ extension ViewController: OrderListViewDelegate {
 
         self.present(alert, animated: true)
     }
-}
-
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.orderList.count
-    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderItemCell", for: indexPath) as! OrderItemCell
-        cell.configure(with: viewModel.orderList[indexPath.row])
-        cell.delegate = self
-        return cell
-    }
-}
-
-extension ViewController: OrderItemCellDelegate {
-    func orderItemCellDidTapIncrement(_ cell: OrderItemCell) {
-        guard let orderItem = cell.orderItem else { return }
+    func orderItemCellDidTapIncrement(orderItem: OrderItem) {
         viewModel.orderCountIncreament(orderItem)
     }
     
-    func orderItemCellDidTapDecrement(_ cell: OrderItemCell) {
-        guard let orderItem = cell.orderItem else { return }
+    func orderItemCellDidTapDecrement(orderItem: OrderItem) {
         viewModel.orderCountDecreament(orderItem)
     }
     
-    func orderItemCellDidTapRemove(_ cell: OrderItemCell) {
-        guard let orderItem = cell.orderItem else { return }
+    func orderItemCellDidTapRemove(orderItem: OrderItem) {
         viewModel.removeOrder(orderItem)
     }
 }
 
 // MARK: - SpinnerView RetryButton Tap Delegate
-extension ViewController: SpinnerViewButtonDelegate {
+extension ViewController: SpinnerViewDelegate {
     func spinnerViewRetryButtonTapped() {
         viewModel.fetchProducts()
     }

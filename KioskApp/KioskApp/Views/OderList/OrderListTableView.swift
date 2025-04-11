@@ -106,86 +106,86 @@ class OrderListTableView: UIView {
     }
 
     // MARK: - UITableViewDataSource
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 28)
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView()
+//        headerView.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 28)
+//
+//        // 메인 스택 뷰
+//        let hStackView = UIStackView()
+//        hStackView.axis = .horizontal
+//        hStackView.alignment = .center
+//        hStackView.distribution = .fill
+//
+//        // 왼쪽 스택 (메뉴)
+//        let leftStack = UIStackView()
+//        leftStack.axis = .horizontal
+//        leftStack.alignment = .leading
+//        let menuLabel = UILabel()
+//        menuLabel.text = "메뉴"
+//        menuLabel.font = .boldSystemFont(ofSize: 14)
+//        menuLabel.textAlignment = .left
+//        leftStack.addArrangedSubview(menuLabel)
+//
+//        // 가운데 스택 (수량)
+//        let centerStack = UIStackView()
+//        centerStack.axis = .horizontal
+//        centerStack.alignment = .center
+//        centerStack.spacing = 4
+//        let quantityLabel = UILabel()
+//        quantityLabel.text = "수량"
+//        quantityLabel.font = .boldSystemFont(ofSize: 14)
+//        quantityLabel.textAlignment = .center
+//        centerStack.addArrangedSubview(quantityLabel)
+//
+//        // 오른쪽 스택 (가격)
+//        let rightStack = UIStackView()
+//        rightStack.axis = .horizontal
+//        rightStack.alignment = .leading
+//        rightStack.spacing = 4
+//        let priceLabel = UILabel()
+//        priceLabel.text = "가격"
+//        priceLabel.font = .boldSystemFont(ofSize: 14)
+//        priceLabel.textAlignment = .right
+//        rightStack.addArrangedSubview(priceLabel)
+//
+//        // 스택들을 메인 스택에 추가
+//        hStackView.addArrangedSubview(leftStack)
+//        hStackView.addArrangedSubview(centerStack)
+//        hStackView.addArrangedSubview(rightStack)
+//
+//        // 메인 스택을 헤더 뷰에 추가
+//        headerView.addSubview(hStackView)
+//
+//        // 메인 스택 레이아웃 설정
+//        hStackView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16))
+//        }
+//
+//        // 각 스택 비율 설정 (메뉴: 60%, 수량: 20%, 가격: 20%)
+//        leftStack.snp.makeConstraints { make in
+//            make.width.equalTo(hStackView).multipliedBy(0.55)
+//        }
+//
+//        centerStack.snp.makeConstraints { make in
+//            make.width.equalTo(hStackView).multipliedBy(0.25)
+//        }
+//
+//        rightStack.snp.makeConstraints { make in
+//            make.width.equalTo(hStackView).multipliedBy(0.2)
+//        }
+//
+//        return headerView
+//    }
 
-        // 메인 스택 뷰
-        let hStackView = UIStackView()
-        hStackView.axis = .horizontal
-        hStackView.alignment = .center
-        hStackView.distribution = .fill
-
-        // 왼쪽 스택 (메뉴)
-        let leftStack = UIStackView()
-        leftStack.axis = .horizontal
-        leftStack.alignment = .leading
-        let menuLabel = UILabel()
-        menuLabel.text = "메뉴"
-        menuLabel.font = .boldSystemFont(ofSize: 14)
-        menuLabel.textAlignment = .left
-        leftStack.addArrangedSubview(menuLabel)
-
-        // 가운데 스택 (수량)
-        let centerStack = UIStackView()
-        centerStack.axis = .horizontal
-        centerStack.alignment = .center
-        centerStack.spacing = 4
-        let quantityLabel = UILabel()
-        quantityLabel.text = "수량"
-        quantityLabel.font = .boldSystemFont(ofSize: 14)
-        quantityLabel.textAlignment = .center
-        centerStack.addArrangedSubview(quantityLabel)
-
-        // 오른쪽 스택 (가격)
-        let rightStack = UIStackView()
-        rightStack.axis = .horizontal
-        rightStack.alignment = .leading
-        rightStack.spacing = 4
-        let priceLabel = UILabel()
-        priceLabel.text = "가격"
-        priceLabel.font = .boldSystemFont(ofSize: 14)
-        priceLabel.textAlignment = .right
-        rightStack.addArrangedSubview(priceLabel)
-
-        // 스택들을 메인 스택에 추가
-        hStackView.addArrangedSubview(leftStack)
-        hStackView.addArrangedSubview(centerStack)
-        hStackView.addArrangedSubview(rightStack)
-
-        // 메인 스택을 헤더 뷰에 추가
-        headerView.addSubview(hStackView)
-
-        // 메인 스택 레이아웃 설정
-        hStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16))
-        }
-
-        // 각 스택 비율 설정 (메뉴: 60%, 수량: 20%, 가격: 20%)
-        leftStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.55)
-        }
-
-        centerStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.25)
-        }
-
-        rightStack.snp.makeConstraints { make in
-            make.width.equalTo(hStackView).multipliedBy(0.2)
-        }
-
-        return headerView
-    }
-
-    // 섹션 높이
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 24
-    }
-
-    /// 섹션 개수를 명시적으로 설정해야 헤더가 보입니다.
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+//    // 섹션 높이
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 24
+//    }
+//
+//    /// 섹션 개수를 명시적으로 설정해야 헤더가 보입니다.
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 1
+//    }
 
     /// 테이블 뷰의 셀 개수를 반환합니다.
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
