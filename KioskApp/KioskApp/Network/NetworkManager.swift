@@ -58,7 +58,7 @@ final class NetworkManager {
             throw(NetworkError.invalidURL)
         }
         
-        var urlRequest = URLRequest(url: urlComponents.url!)
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         
         let response = try await session.data(for: urlRequest)
