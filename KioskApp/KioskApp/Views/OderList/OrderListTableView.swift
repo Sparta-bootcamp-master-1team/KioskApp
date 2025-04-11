@@ -87,6 +87,11 @@ class OrderListTableView: UIView {
         // 셀의 예상 높이를 지정합니다.
         // 초기 렌더링 성능 향상을 위해 사용되며, 실제 높이는 automaticDimension이 적용됩니다.
         tableView.estimatedRowHeight = 60
+        
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 10
+        }
+        
     }
 
     // MARK: - Action
