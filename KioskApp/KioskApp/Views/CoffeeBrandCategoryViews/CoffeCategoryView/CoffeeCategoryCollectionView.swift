@@ -71,7 +71,8 @@ class CoffeeCategoryCollectionView: UIView {
         let indexPath = IndexPath(item: 0, section: 0)
         selectedIndex = indexPath
         categoryCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        categoryCollectionView.scrollToItem(at: indexPath, at: [], animated: false)
+//        categoryCollectionView.scrollToItem(at: indexPath, at: [], animated: false)
+        categoryCollectionView.setContentOffset(.zero, animated: false)
         categoryCollectionView.reloadData()
         
         delegate?.categoryButtonDidTap(index: 0) // 위임자에게 선택 알림
