@@ -121,17 +121,28 @@ https://github.com/StyleShare/swift-style-guide
 
 ### 커밋 태그
 feat: 새로운 기능 추가
+
 fix: 버그 수정
+
 comment: 주석 추가
+
 chore: 빌드 업무 수정, 패키지 매니저 수정
+
 refactor: 코드 리팩토링
+
 docs: 문서 수정
+
 ci: CI 관련 설정 수정에 대한 커밋
+
 style: 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우, 키워드 변경
+
 build: 빌드 관련 파일 수정, 패키지 매니저 수정
+
 test: 테스트 코드 수정, 리팩토리 테스트 코드 추가
-rename: 파일 혹은 폴더명을 수정하거나 옮기는 작업만 한 경우  
-remove: 파일을 삭제하는 작업만 수행한 경우  
+
+rename: 파일 혹은 폴더명을 수정하거나 옮기는 작업만 한 경우
+
+remove: 파일을 삭제하는 작업만 수행한 경우
 
 ### 이슈 태그
 feat: 기능 명세서
