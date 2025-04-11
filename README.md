@@ -175,10 +175,10 @@ Labels 추가
 
 | 이름 | 역할 | GitHub |
 |------|------|--------|
-| [이민재](깃허브 링크) | 역할 | @깃사용자이름 ||
+| [이민재](https://github.com/minjae-L) | 커피 데이터 모델링, 네트워크 작업, 네트워크 로딩 창 구현 | @minjae-L ||
 | [양원식](https://github.com/sheep1sik) | 주문 목록 UI 및 기능 구현, ViewModel 구성 | @sheep1sik |
-| [박주성](깃허브 링크) | 상품 목록 UI 구현, ViewController 구성, ViewModel 마무리 | @깃사용자이름 |
-| [조선우](깃허브 링크) | 브랜드 버튼 UI, 카테고리 셀 UI | @깃사용자이름 |
+| [박주성](https://github.com/gnoes-ios) | 상품 목록 UI 구현, ViewController 구성, ViewModel 마무리 | @gnoes-ios |
+| [조선우](https://github.com/Sn8Ch0) | 브랜드 버튼 UI, 카테고리 셀 UI | @Sn8Ch0 |
 
 
 > 협업 도구: Notion, GitHub, Slack, Figma
