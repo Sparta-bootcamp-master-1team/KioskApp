@@ -41,20 +41,20 @@ final class OrderViewModel {
     /// 현재 주문한 상품 리스트
     private(set) var orderList: [OrderItem] = [] {
         didSet {
-            orderProductsChanged?()
+            orderProductsChanged?(orderList)
         }
     }
     
     // MARK: - 클로저
     
-    /// 주문 목록이 변경될 때 호출되는 클로저
-    var orderProductsChanged: (() -> Void)?
-    
+    /// 브랜드가 변경될 때 호출되는 클로저
+    var brandChanged: ((Brand) -> Void)?
+
     /// 카테고리가 변경될 때 호출되는 클로저
     var categoryChanged: (([Beverage]) -> Void)?
     
-    /// 브랜드가 변경될 때 호출되는 클로저
-    var brandChanged: ((Brand) -> Void)?
+    /// 주문 목록이 변경될 때 호출되는 클로저
+    var orderProductsChanged: (([OrderItem]) -> Void)?
     
     var dataFetchStarted: (() -> Void)?
     var dataFetchCompleted: (() -> Void)?
@@ -109,7 +109,7 @@ final class OrderViewModel {
                                     brand: beverage.brand,
                                     category: beverage.category,
                                     count: 1)
-            orderList.append(newItem)
+            orderList.insert(newItem, at: 0)
         }
     }
     
@@ -120,7 +120,7 @@ final class OrderViewModel {
         guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
         guard orderList[index].count < 10 else { return }
         orderList[index].increaseCount()
-        orderProductsChanged?()
+        orderProductsChanged?(orderList)
     }
     
     /// 주문 항목의 수량을 1 감소시킵니다.
@@ -131,7 +131,7 @@ final class OrderViewModel {
         guard let index = orderList.firstIndex(where: { $0 == beverage }) else { return }
         if orderList[index].count > 1 {
             orderList[index].decreaseCount()
-            orderProductsChanged?()
+            orderProductsChanged?(orderList)
         }
     }
     
