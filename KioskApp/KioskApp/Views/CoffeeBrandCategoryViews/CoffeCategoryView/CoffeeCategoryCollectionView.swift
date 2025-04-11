@@ -39,10 +39,10 @@ class CoffeeCategoryCollectionView: UIView {
     
     private var selectedIndex: IndexPath = IndexPath(item: 0, section: 0)
     
-    var buttonBackgroundColor: UIColor = #colorLiteral(red: 0.3039717376, green: 0.1641474366, blue: 0.07612364739, alpha: 1) {
+    var buttonBackgroundColor: UIColor = #colorLiteral(red: 0.3039717376, green: 0.1641474366, blue: 0.07612364739, alpha: 1) { // 기본값은 메가커피 색상으로 지정
         didSet {
             categoryCollectionView.reloadData() // 브랜드 색상 변경 시 전체 리로드
-            selectRecommendedMenu() // 브랜드 변경 시 추천메뉴 선택 유지
+            selectRecommendedMenu() // 브랜드 변경 시 첫번째 셀(추천메뉴) 선택 유지
         }
     }
     
@@ -71,7 +71,7 @@ class CoffeeCategoryCollectionView: UIView {
         let indexPath = IndexPath(item: 0, section: 0)
         selectedIndex = indexPath
         categoryCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-        
+        categoryCollectionView.scrollToItem(at: indexPath, at: [], animated: false)
         categoryCollectionView.reloadData()
         
         delegate?.categoryButtonDidTap(index: 0) // 위임자에게 선택 알림
@@ -83,7 +83,7 @@ class CoffeeCategoryCollectionView: UIView {
         super.layoutSubviews()
         
         if categoryCollectionView.indexPathsForSelectedItems?.isEmpty ?? true {
-            selectRecommendedMenu()
+            selectRecommendedMenu() // 초기값으로 첫번째 셀(추천메뉴) 설정
         }
     }
 }
