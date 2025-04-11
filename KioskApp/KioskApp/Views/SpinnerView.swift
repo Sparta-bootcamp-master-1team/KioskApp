@@ -1,13 +1,13 @@
 import UIKit
 import SnapKit
 
-protocol SpinnerViewButtonDelegate: AnyObject {
+protocol SpinnerViewDelegate: AnyObject {
     func spinnerViewRetryButtonTapped()
 }
 
 class SpinnerView: UIView {
     
-    weak var delegate: SpinnerViewButtonDelegate?
+    weak var delegate: SpinnerViewDelegate?
     
     private let indicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()

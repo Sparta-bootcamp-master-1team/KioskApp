@@ -142,7 +142,7 @@ class ProductGridView: UIView {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])       // 섹션 추가
         snapshot.appendItems(items, toSection: .main) // 아이템 추가
-        self.datasource.apply(snapshot)        // 데이터 적용
+        self.datasource.apply(snapshot, animatingDifferences: false) // 데이터 적용
     }
     
     // MARK: - 페이지 컨트롤 구성
